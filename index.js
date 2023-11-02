@@ -247,16 +247,10 @@ async function connectToWhatsApp() {
                 case "registrar":
                 case "registro":
                 case "rg":
-                    if (!isGroup) {
-                        GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.warning)
-                        return enviar(resposta.grupo)
-                    }
+                    if (!isGroup) return enviar(resposta.grupo)
 
                     const RGDB = await UserSchema.findOne({ telefone: `${sender.split("@")[0]}` })
-                    if (RGDB) {
-                        GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.warning)
-                        return enviar(resposta.rg)
-                    }
+                    if (RGDB) return enviar(resposta.rg)
                     await UserSchema.create({
                         name: `${pushname}`,
                         telefone: `${sender.split("@")[0]}`,
@@ -264,10 +258,35 @@ async function connectToWhatsApp() {
                         money: 0,
                         cash: 0
                     })
-                    cooh.sendMessage(from, { text: `⚙️️ Registrado com sucesso\n\n・➤ 👤 Nome: ${pushname} (${sender.split("@")[0]})\n・➤ 🗓️ Data De Registro: ${moment().tz("America/Sao_Paulo", keepTime=true).format("DD/MM/YYYY")}\n️・➤ ⌚ Hora De Registro: ${moment().tz("America/Sao_Paulo", keepTime=true).format("HH:mm:ss")} (Horário De Brasília)` }, { quoted: info })
+                    cooh.sendMessage(from, { text: `⚙️️ Registrado com sucesso\n\n・➤ 👤 Nome: ${pushname} (${sender.split("@")[0]})\n・➤ 🗓️ Data De Registro: ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️・➤ ⌚ Hora De Registro: ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} (Horário De Brasília)` }, { quoted: info })
                     GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     break
 
+                case "beijar":
+                case "kiss":
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (args[1] == '' || !args[1]) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
+                    if (args[2] == '' || !args[2]) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
+                    var kissList1 = [
+                        'https://imgur.com/II1bakc.gif',
+                        'https://imgur.com/MzAjNdv.gif',
+                        'https://imgur.com/eKcWCgS.gif',
+                        'https://imgur.com/3aX4Qq2.gif',
+                        'https://imgur.com/uobBW9K.gif'
+                    ]
+
+                    const kissR1 = kissList1[Math.floor(Math.random() * kissList1.length)]
+
+                    const kissUser1 = argss[1]
+                    if(kissUser1.includes("@")) kissUser1 = argss[1].split("@")[0]
+                    if(isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
+                    const kissUser2 = argss[2]
+                    if(kissUser2.includes("@")) kissUser2 = argss[1].split("@")[0]
+                    if(isNaN(kissUser2)) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
+                    
+                    cooh.sendMessage(from, { image: { url: `${kissR1}`}, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) ${kissUser2}.`, title:`Um Beijo Amoroso Do(a) ${pushname}`, footer:`O Amor Está No Ar!`, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@whatsapp.net`] }, { quoted: info })
+
+                    break
                 /*
                 case 'enquete': 
                 message = {

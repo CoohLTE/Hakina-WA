@@ -168,6 +168,8 @@ async function connectToWhatsApp() {
             const isQuotedLocation = type === "extendedTextMessage" && content.includes("locationMessage")
             const isQuotedProduct = type === "extendedTextMessage" && content.includes("productMessage")
 
+            const verificado = { "key": { "fromMe": false, "participant": "0@s.whatsapp.net", "remoteJid": "552796100962@g.us" }, "message": { orderMessage: { itemCount: 9999, status: 4, thumbnail: fs.readFileSync(`./arquivos/Fotos/Verificado.png`), message: `Hakina`, surface: 100, sellerJid: "0@s.whatsapp.net" } } }
+
             //Obtém o conteúdo de um arquivo em formato de buffer
             const getFileBuffer = async (mediakey, MediaType) => {
                 const stream = await downloadContentFromMessage(mediakey, MediaType)
@@ -245,6 +247,11 @@ async function connectToWhatsApp() {
                 }
             }
             switch (comando) {
+                case "menu":
+                    if (!isGroup) return enviar(resposta.grupo)
+                    enviar(`\`\`\`[\`\`\` ⚠️ \`\`\`]\`\`\` *EM BREVE*`)
+                break
+             
                 case "registrar":
                 case "registro":
                 case "rg":
@@ -257,7 +264,7 @@ async function connectToWhatsApp() {
                         money: 0,
                         cash: 0
                     })
-                    cooh.sendMessage(from, { text: `⚙️️ Registrado com sucesso\n\n・➤ 👤 Nome: ${pushname} (${sender.split("@")[0]})\n・➤ 🗓️ Data De Registro: ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️・➤ ⌚ Hora De Registro: ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} (Horário De Brasília)` }, { quoted: info })
+                    cooh.sendMessage(from, { text: `\`\`\`・➤\`\`\` 👤 *Nome:* ${pushname} \`\`\`(\`\`\` ${sender.split("@")[0]} \`\`\`)\`\`\`\n\`\`\`・➤\`\`\` 🗓️ *Data De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️\`\`\`・➤\`\`\` ⌚ *Hora De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} \`\`\`(\`\`\` Horário De Brasília \`\`\`)\`\`\`\n\n⚙️️ Registrado com sucesso` }, { quoted: verificado })
                     GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     break
 
@@ -272,13 +279,11 @@ async function connectToWhatsApp() {
                         './arquivos/Videos/Kiss/3aX4Qq2.mp4',
                         './arquivos/Videos/Kiss/uobBW9K.mp4'
                     ]
-                    // console.log(args[0] + '  |  ' + args[1])
                     if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
                     if (args[1] == '' || args[1] == undefined || !args[1]) {
 
                         const kissUser1 = args[0].slice(1)
 
-                        //console.log(sender + '  |  ' + kissUser1)
                         const kissR1 = fs.readFileSync(kissList1[Math.floor(Math.random() * kissList1.length)])
 
 
@@ -287,6 +292,7 @@ async function connectToWhatsApp() {
                         enviar(resposta.espere)
                         setTimeout(async() => {
                             await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${sender.split("@")[0]} Deu Um Beijo No(a) @${kissUser1}.`, gifPlayback: true, mentions: [`${sender}`, `${kissUser1}@s.whatsapp.net`] }, { quoted: info })
+                            GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                         }, 200)
 
 
@@ -302,6 +308,7 @@ async function connectToWhatsApp() {
                         enviar(resposta.espere)
                         setTimeout(async() => {
                             await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) @${kissUser2}.`, gifPlayback: true, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@s.whatsapp.net`] }, { quoted: info })
+                            GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                         }, 200)
 
                     }
@@ -323,8 +330,6 @@ async function connectToWhatsApp() {
                 await cooh.relayMessage(from, message, {quoted: info })
                 break
                 */
-
-                //Aqui é o fim dos comandos sem prefixo, e começo dos sem prefixo
                 default:
 
                     const messType = Object.keys(info.message)[0]

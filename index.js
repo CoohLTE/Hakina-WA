@@ -46,7 +46,7 @@ async function connectToWhatsApp() {
     const cooh = makeWASocket({
         logger: P({ level: "silent" }),
         printQRInTerminal: true,
-        browser: ['LorittaMD', 'macOS', 'desktop'],
+        browser: ['HakinaMD', 'macOS', 'desktop'],
         auth: state
     })
     cooh.ev.on("creds.update", saveCreds)
@@ -265,26 +265,40 @@ async function connectToWhatsApp() {
                 case "beijar":
                 case "kiss":
                     if (!isGroup) return enviar(resposta.grupo)
-                    if (args[1] == '' || !args[1]) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
-                    if (args[2] == '' || !args[2]) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
                     var kissList1 = [
-                        'https://imgur.com/II1bakc.gif',
-                        'https://imgur.com/MzAjNdv.gif',
-                        'https://imgur.com/eKcWCgS.gif',
-                        'https://imgur.com/3aX4Qq2.gif',
-                        'https://imgur.com/uobBW9K.gif'
+                        './arquivos/Videos/Kiss/II1bakc.gif',
+                        './arquivos/Videos/Kiss/MzAjNdv.gif',
+                        './arquivos/Videos/Kiss/eKcWCgS.gif',
+                        './arquivos/Videos/Kiss/3aX4Qq2.gif',
+                        './arquivos/Videos/Kiss/uobBW9K.gif'
                     ]
+                   // console.log(args[0] + '  |  ' + args[1])
+                    if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+                    if (args[1] == '' || args[1] == undefined || !args[1]) {
 
-                    const kissR1 = kissList1[Math.floor(Math.random() * kissList1.length)]
+                        const kissUser1 = args[0].slice(1)
 
-                    const kissUser1 = argss[1]
-                    if(kissUser1.includes("@")) kissUser1 = argss[1].split("@")[0]
-                    if(isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
-                    const kissUser2 = argss[2]
-                    if(kissUser2.includes("@")) kissUser2 = argss[1].split("@")[0]
-                    if(isNaN(kissUser2)) return enviar(`❌ \`\`\`-\`\`\` *Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>*`)
-                    
-                    cooh.sendMessage(from, { image: { url: `${kissR1}`}, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) ${kissUser2}.`, title:`Um Beijo Amoroso Do(a) ${pushname}`, footer:`O Amor Está No Ar!`, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@whatsapp.net`] }, { quoted: info })
+                        //console.log(sender + '  |  ' + kissUser1)
+                        const kissR1 = fs.readFileSync(kissList1[Math.floor(Math.random() * kissList1.length)])
+    
+                        
+                        if(isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+
+                        cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${sender.split("@")[0]} Deu Um Beijo No(a) @${kissUser1}.`, gifPlayback: true, mentions: [`${sender}`, `${kissUser1}@s.whatsapp.net`] }, { quoted: info })
+    
+
+                    } else {
+
+                        const kissR1 = fs.readFileSync(kissList1[Math.floor(Math.random() * kissList1.length)])
+
+                        const kissUser1 = args[0].slice(1)
+                        if (isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+                        const kissUser2 = args[1].slice(1)
+                        if (isNaN(kissUser2)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+
+                        cooh.sendMessage(from, { gif: kissR1, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) @${kissUser2}.`, gifPlayback: true, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@s.whatsapp.net`] }, { quoted: info })
+
+                    }
 
                     break
                 /*

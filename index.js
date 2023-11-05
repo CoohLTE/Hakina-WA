@@ -133,6 +133,7 @@ async function connectToWhatsApp() {
             const BotNumber = cooh.user.id.split(':')[0] + '@s.whatsapp.net'
             const isGroupAdmins = groupAdmins.includes(sender) || false
             const isBotGroupAdmins = groupAdmins.includes(BotNumber) || false
+            const isRegistro = await UserSchema.findOne({ telefone: `${sender.split("@")[0]}` }) ? true : false
             const isUrl = (url) => { return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi')) }
             const deviceType = info.key.id.length > 21 ? 'Android' : info.key.id.substring(0, 2) == '3A' ? 'IPhone' : 'WhatsApp web'
 
@@ -180,7 +181,7 @@ async function connectToWhatsApp() {
             //Respostas de verificação
             var resposta = {
                 espere: "Por favor, aguarde um momento...",
-                registro: `Olá ${nome}, parece que você ainda não está registrado. Para fazer seu registro, utilize o comando ${prefixo}registrar.`,
+                registro: `Olá ${nome}, parece que você ainda não está registrado. Para fazer seu registro, utilize o comando ${prefixo}rg.`,
                 rg: "Oops! Parece que você já está registrado. Não é possível ter mais de um registro por usuário.",
                 premium: "Lamentamos, mas você não possui uma assinatura Premium. Este comando é exclusivo para usuários na lista Premium. Aproveite todos os benefícios de se tornar Premium!",
                 bot: "Este comando só pode ser executado pelo bot.",
@@ -248,9 +249,7 @@ async function connectToWhatsApp() {
                 case "registro":
                 case "rg":
                     if (!isGroup) return enviar(resposta.grupo)
-
-                    const RGDB = await UserSchema.findOne({ telefone: `${sender.split("@")[0]}` })
-                    if (RGDB) return enviar(resposta.rg)
+                    if (isRegistro) return enviar(resposta.rg)
                     await UserSchema.create({
                         name: `${pushname}`,
                         telefone: `${sender.split("@")[0]}`,
@@ -265,14 +264,15 @@ async function connectToWhatsApp() {
                 case "beijar":
                 case "kiss":
                     if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
                     var kissList1 = [
-                        './arquivos/Videos/Kiss/II1bakc.gif',
-                        './arquivos/Videos/Kiss/MzAjNdv.gif',
-                        './arquivos/Videos/Kiss/eKcWCgS.gif',
-                        './arquivos/Videos/Kiss/3aX4Qq2.gif',
-                        './arquivos/Videos/Kiss/uobBW9K.gif'
+                        './arquivos/Videos/Kiss/II1bakc.mp4',
+                        './arquivos/Videos/Kiss/MzAjNdv.mp4',
+                        './arquivos/Videos/Kiss/eKcWCgS.mp4',
+                        './arquivos/Videos/Kiss/3aX4Qq2.mp4',
+                        './arquivos/Videos/Kiss/uobBW9K.mp4'
                     ]
-                   // console.log(args[0] + '  |  ' + args[1])
+                    // console.log(args[0] + '  |  ' + args[1])
                     if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
                     if (args[1] == '' || args[1] == undefined || !args[1]) {
 
@@ -280,12 +280,15 @@ async function connectToWhatsApp() {
 
                         //console.log(sender + '  |  ' + kissUser1)
                         const kissR1 = fs.readFileSync(kissList1[Math.floor(Math.random() * kissList1.length)])
-    
-                        
-                        if(isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
 
-                        cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${sender.split("@")[0]} Deu Um Beijo No(a) @${kissUser1}.`, gifPlayback: true, mentions: [`${sender}`, `${kissUser1}@s.whatsapp.net`] }, { quoted: info })
-    
+
+                        if (isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+
+                        enviar(resposta.espere)
+                        setTimeout(async() => {
+                            await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${sender.split("@")[0]} Deu Um Beijo No(a) @${kissUser1}.`, gifPlayback: true, mentions: [`${sender}`, `${kissUser1}@s.whatsapp.net`] }, { quoted: info })
+                        }, 200)
+
 
                     } else {
 
@@ -296,7 +299,10 @@ async function connectToWhatsApp() {
                         const kissUser2 = args[1].slice(1)
                         if (isNaN(kissUser2)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
 
-                        cooh.sendMessage(from, { gif: kissR1, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) @${kissUser2}.`, gifPlayback: true, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@s.whatsapp.net`] }, { quoted: info })
+                        enviar(resposta.espere)
+                        setTimeout(async() => {
+                            await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) @${kissUser2}.`, gifPlayback: true, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@s.whatsapp.net`] }, { quoted: info })
+                        }, 200)
 
                     }
 

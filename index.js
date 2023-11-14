@@ -267,7 +267,7 @@ async function connectToWhatsApp() {
                         }
 
                         const repostaImagine = await Imagine.drawImage({ model: 'v2-beta', prompt: `${q}`})
-                        await UserSchema.findOneAndReplace({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) } )
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) } )
 
                         cooh.sendMessage(from, { image: { url: `${repostaImagine.url}`}, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, {quoted: verificado})
 

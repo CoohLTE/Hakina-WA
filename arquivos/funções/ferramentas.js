@@ -83,12 +83,12 @@ function tempRuntime(seconds) {
     var h = Math.floor((seconds % (3600 * 24)) / 3600);
     var m = Math.floor((seconds % 3600) / 60);
     var s = Math.floor(seconds % 60)
-    var dDisplay = d > 0 ? d + (d === 1 ? " dia" : " dias") : "";
-    var hDisplay = h > 0 ? h + (h === 1 ? " hr" : " hrs") : "";
-    var mDisplay = m > 0 ? m + (m === 1 ? " min" : " mins") : "";
-    var sDisplay = s > 0 ? s + (s === 1 ? " seg" : " segs") : "";
+    var dDisplay = d > 0 ? d + (d === 1 ? " Dia" : " Dias") : "";
+    var hDisplay = h > 0 ? h + (h === 1 ? " Hora" : " Horas") : "";
+    var mDisplay = m > 0 ? m + (m === 1 ? " Minuto" : " Minutos") : "";
+    var sDisplay = s > 0 ? s + (s === 1 ? " Segundo" : " Segundos") : "";
     var timeComponents = [dDisplay, hDisplay, mDisplay, sDisplay].filter(Boolean)
-    if (timeComponents.length === 0) { return "Tempo zero" }
+    if (timeComponents.length === 0) { return "Tempo Zero" }
     if (timeComponents.length === 1) {
         return timeComponents[0]
     }

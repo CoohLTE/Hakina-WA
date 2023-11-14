@@ -5,7 +5,8 @@ const CreateUser = new Schema({
     telefone: String,
     vip: Boolean,
     money: Number,
-    cash: Number
+    cash: Number,
+    TimeImagine: Number
 }); 
 
 module.exports = model("User", CreateUser);

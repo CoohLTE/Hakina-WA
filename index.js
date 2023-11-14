@@ -30,6 +30,8 @@ const latensi = speed() - timestamp
 const ascii = require('ascii-table')
 const UserSchema = require('./arquivos/SchemaDB/User')
 
+const hercai = require('hercai')
+
 
 const table = new ascii(`Arquivos Em Funcionamentos`)
 
@@ -251,6 +253,26 @@ async function connectToWhatsApp() {
                     if (!isGroup) return enviar(resposta.grupo)
                     enviar(`\`\`\`[\`\`\` ⚠️ \`\`\`]\`\`\` *EM BREVE*`)
                 break
+                case "imagine":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isRegistro) return enviar(resposta.registro)
+                    if(q == '' || q == undefined || !q) return enviar(`\`\`\`[\`\`\` ⚠️ \`\`\]\`\`\ *Modo De Uso: ${prefixo}imagine _<Texto A Ser Imaginado Como Uma Imagem>_*`)
+                    const Imagine = new hercai.Hercai()
+                    enviar(resposta.espere)
+                    const cooldownImagine = await UserSchema.find({ telefone: `${sender.split('@')[0]}` })
+                    cooldownImagine.map(async(doc1) => {
+                        if(doc1.TimeImagine && doc1.TimeImagine > Date.now()){
+                            const tempoTimeOutImagine = tempRuntime((doc1.TimeImagine - Date.now() / 1000))
+                            return cooh.sendMessage(from, { text: `Olá ${pushname} \`\`\`(\`\`\` +${sender.split("@")[0]} \`\`\`)\`\`\`, Está API Está Em Desenvolvimento, Para Uma Melhor Utilização Aguarde: ${tempoTimeOutImagine} Para Utilizar Novamente!` }, { quoted: info })
+                        }
+
+                        const repostaImagine = await Imagine.drawImage({ model: 'v2-beta', prompt: `${q}`})
+                        await UserSchema.findOneAndReplace({ telefone: `${sender.split("@")[0]}` }, { TimeImagine: (Date.now() + 10000) } )
+
+                        cooh.sendMessage(from, { image: { url: `${repostaImagine.url}`}, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, {quoted: verificado})
+
+                    })
+                break
              
                 case "registrar":
                 case "registro":
@@ -333,7 +355,6 @@ async function connectToWhatsApp() {
                 default:
 
                     const messType = Object.keys(info.message)[0]
-                    //console.log(body.trim().split(/ +/).shift().toLocaleLowerCase())
 
                     if (body.trim().split(/ +/).shift().toLocaleLowerCase().includes("@5527992462839")) {
 
@@ -348,7 +369,6 @@ async function connectToWhatsApp() {
             }
             console.error('\n %s', color(`➱ ${e}`, 'yellow'))
             console.log(color('\n « ! Crashlog ! »', 'red'), (color('Erro detectado! \n', 'yellow')))
-            //GetLogsCMD(cooh, info, `?????????????`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.error)
         }
     })
 }

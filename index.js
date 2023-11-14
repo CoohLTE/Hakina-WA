@@ -262,8 +262,8 @@ async function connectToWhatsApp() {
                     const cooldownImagine = await UserSchema.find({ telefone: `${sender.split('@')[0]}` })
                     cooldownImagine.map(async(doc1) => {
                         if(doc1.TimeImagine && doc1.TimeImagine > Date.now()){
-                            const tempoTimeOutImagine = tempRuntime((doc1.TimeImagine - Date.now() / 1000))
-                            return cooh.sendMessage(from, { text: `Olá ${pushname} \`\`\`(\`\`\` +${sender.split("@")[0]} \`\`\`)\`\`\`, Está API Está Em Desenvolvimento, Para Uma Melhor Utilização Aguarde: ${tempoTimeOutImagine} Para Utilizar Novamente!` }, { quoted: info })
+                            //const tempoTimeOutImagine = tempRuntime((doc1.TimeImagine - Date.now() / 1000))
+                            return cooh.sendMessage(from, { text: `Olá ${pushname} \`\`\`(\`\`\` +${sender.split("@")[0]} \`\`\`)\`\`\`, Está API Está Em Desenvolvimento, Para Uma Melhor Utilização Aguarde 10 Segundos Para Utilizar Novamente!` }, { quoted: info })
                         }
 
                         const repostaImagine = await Imagine.drawImage({ model: 'v2-beta', prompt: `${q}`})

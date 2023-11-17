@@ -266,7 +266,7 @@ async function connectToWhatsApp() {
                             return cooh.sendMessage(from, { text: `Olá ${pushname} \`\`\`(\`\`\` +${sender.split("@")[0]} \`\`\`)\`\`\`, Está API Está Em Desenvolvimento, Para Uma Melhor Utilização Aguarde ${countdownImagine} Para Utilizar Novamente!` }, { quoted: info })
                         }
 
-                        const repostaImagine = await Imagine.drawImage({ model: 'v2', prompt: `${q}`})
+                        const repostaImagine = await Imagine.drawImage({ model: 'prodia', prompt: `${q}`})
                         await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) } )
 
                         cooh.sendMessage(from, { image: { url: `${repostaImagine.url}`}, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, {quoted: verificado})
@@ -289,6 +289,11 @@ async function connectToWhatsApp() {
                     cooh.sendMessage(from, { text: `\`\`\`・➤\`\`\` 👤 *Nome:* ${pushname} \`\`\`(\`\`\` ${sender.split("@")[0]} \`\`\`)\`\`\`\n\`\`\`・➤\`\`\` 🗓️ *Data De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️\`\`\`・➤\`\`\` ⌚ *Hora De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} \`\`\`(\`\`\` Horário De Brasília \`\`\`)\`\`\`\n\n⚙️️ Registrado com sucesso` }, { quoted: verificado })
                     GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     break
+                case "work":
+                case "trabalhar":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isRegistro) return enviar(resposta.registro)
+                break
 
                 case "beijar":
                 case "kiss":

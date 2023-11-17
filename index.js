@@ -266,7 +266,7 @@ async function connectToWhatsApp() {
                             return cooh.sendMessage(from, { text: `Olá ${pushname} \`\`\`(\`\`\` +${sender.split("@")[0]} \`\`\`)\`\`\`, Está API Está Em Desenvolvimento, Para Uma Melhor Utilização Aguarde ${countdownImagine} Para Utilizar Novamente!` }, { quoted: info })
                         }
 
-                        const repostaImagine = await Imagine.drawImage({ model: 'lexica', prompt: `${q}`})
+                        const repostaImagine = await Imagine.drawImage({ model: 'v2', prompt: `${q}`})
                         await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) } )
 
                         cooh.sendMessage(from, { image: { url: `${repostaImagine.url}`}, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, {quoted: verificado})

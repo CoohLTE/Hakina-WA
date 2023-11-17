@@ -1,5 +1,6 @@
 const { default: makeWASocket, makeInMemoryStore, useMultiFileAuthState, delay, downloadContentFromMessage, DisconnectReason, templateMessage, MediaType, GroupSettingChange, isBaileys, WASocket, WAProto, getStream, relayWAMessage, Miimetype, proto, mentionedJid, processTime, MessageTypeProto, BufferJSON, GroupMetadata, getContentType } = require("@adiwajshing/baileys")
 
+const { menu1 } = require("./arquivos/Menus/Menu")
 const P = require("pino")
 const fs = require("fs")
 const util = require("util")

@@ -251,7 +251,7 @@ async function connectToWhatsApp() {
             switch (comando) {
                 case "menu":
                     if (!isGroup) return enviar(resposta.grupo)
-                    enviar(`\`\`\`[\`\`\` ⚠️ \`\`\`]\`\`\` *EM BREVE*`)
+                    enviar(`${menu1(prefixo, sender.split("@")[0], pushname)}`)
                 break
                 case "imagine":
                     if(!isGroup) return enviar(resposta.grupo)
@@ -289,11 +289,12 @@ async function connectToWhatsApp() {
                     cooh.sendMessage(from, { text: `\`\`\`・➤\`\`\` 👤 *Nome:* ${pushname} \`\`\`(\`\`\` ${sender.split("@")[0]} \`\`\`)\`\`\`\n\`\`\`・➤\`\`\` 🗓️ *Data De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️\`\`\`・➤\`\`\` ⌚ *Hora De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} \`\`\`(\`\`\` Horário De Brasília \`\`\`)\`\`\`\n\n⚙️️ Registrado com sucesso` }, { quoted: verificado })
                     GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     break
-                case "work":
+                /*case "work":
                 case "trabalhar":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)
                 break
+            */
 
                 case "beijar":
                 case "kiss":

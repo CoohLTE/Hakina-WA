@@ -13,4 +13,4 @@ const menu1 = (prefixo, sender, pushname) => {
 `
 }
 
-exports.menu1 - menu1
+exports.menu1 = menu1

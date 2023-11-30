@@ -253,6 +253,7 @@ async function connectToWhatsApp() {
                 case "menu":
                     if (!isGroup) return enviar(resposta.grupo)
                     enviar(`${menu1(prefixo, sender.split("@")[0], pushname)}`)
+                    GetLogsCMD(cooh, info, `${prefixo}menu`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                 break
                 case "imagine":
                     if(!isGroup) return enviar(resposta.grupo)
@@ -290,12 +291,40 @@ async function connectToWhatsApp() {
                     cooh.sendMessage(from, { text: `\`\`\`・➤\`\`\` 👤 *Nome:* ${pushname} \`\`\`(\`\`\` ${sender.split("@")[0]} \`\`\`)\`\`\`\n\`\`\`・➤\`\`\` 🗓️ *Data De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️\`\`\`・➤\`\`\` ⌚ *Hora De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} \`\`\`(\`\`\` Horário De Brasília \`\`\`)\`\`\`\n\n⚙️️ Registrado com sucesso` }, { quoted: verificado })
                     GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     break
-                /*case "work":
+                case "work":
                 case "trabalhar":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)
+                    const WorkProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
+                    WorkProcess.map(async(doc1) => {
+                        if(doc1.TimeWork && doc1.TimeWork > Date.now()){
+                            const countdownWork = tempRuntime((doc1.TimeWork - Date.now())/1000)
+                            return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork} Para Trabalhar Novamente!`})
+                        }
+
+                        const moneyCount = Math.floor(Math.random() * 500) + 100
+
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, money: { $inc: moneyCount } })
+                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou E Ganhou ${moneyCount}$. Dinheiro Ja Depositado Em Sua Carteira!` }, { quoted: info })
+                    })
                 break
-            */
+                case "atm":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isRegistro) return enviar(resposta.registro)
+                    const atmProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
+                    atmProcess.map(async(doc1) => {
+
+                        const { money, cash, vip } = doc1
+
+                        if(!money || money == undefined) money = 0
+                        if(!cash || cash == undefined) cash = 0
+                        if(!vip || vip == undefined) vip = "Sem VIP"
+
+                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` 💸 *Carteira:* ${money}\n\
+                        \`\`\`=->\`\`\` 🏦 *Cash:* ${cash}\n\
+                        \`\`\`=->\`\`\` 🌟 *VIP:* ${vip}` }, { quoted: info })
+                    })
+                break
 
                 case "beijar":
                 case "kiss":

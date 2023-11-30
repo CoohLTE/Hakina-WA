@@ -320,9 +320,7 @@ async function connectToWhatsApp() {
                         if(!cash1 || cash1 == undefined) cash1 = 0
                         if(!doc1.vip || doc1.vip == undefined) vip1 = "Sem VIP"*/
 
-                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` 💸 *Carteira:* ${doc1.money >= 0 ? doc1.money : 0}\n\
-                        \`\`\`=->\`\`\` 🏦 *Cash:* ${doc1.cash >= 0 ? doc1.cash : 0}\n\
-                        \`\`\`=->\`\`\` 🌟 *VIP:* ${doc1.vip ? "Com VIP" : "Sem VIP"}` }, { quoted: info })
+                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` 💸 *Carteira:* ${doc1.money >= 0 ? doc1.money : 0}\n\`\`\`=->\`\`\` 🏦 *Cash:* ${doc1.cash >= 0 ? doc1.cash : 0}\n\\`\`\`=->\`\`\` 🌟 *VIP:* ${doc1.vip ? "Com VIP" : "Sem VIP"}` }, { quoted: info })
                     })
                 break
 

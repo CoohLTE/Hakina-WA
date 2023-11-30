@@ -314,13 +314,11 @@ async function connectToWhatsApp() {
                     const atmProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
                     atmProcess.map(async(doc1) => {
 
-                        const { money, cash, vip } = doc1
-
-                        const money1 = money, cash1 = cash, vip1 = vip
+                        const money1 = doc1.money, cash1 = doc1.cash, vip1 = ""
 
                         if(!money1 || money1 == undefined) money1 = 0
                         if(!cash1 || cash1 == undefined) cash1 = 0
-                        if(!vip1 || vip1 == undefined) vip1 = "Sem VIP"
+                        if(!doc1.vip || doc1.vip == undefined) vip1 = "Sem VIP"
 
                         cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` 💸 *Carteira:* ${money1}\n\
                         \`\`\`=->\`\`\` 🏦 *Cash:* ${cash1}\n\

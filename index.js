@@ -393,7 +393,8 @@ async function connectToWhatsApp() {
                     const messType = Object.keys(info.message)[0]
 
                     console.log(messType)
-
+                    console.log(info.message.senderKeyDistributionMessage.axolotlSenderKeyDistributionMessage)
+                    console.log(info.message.senderKeyDistributionMessage)
 
                     if (body.trim().split(/ +/).shift().toLocaleLowerCase().includes("@5527992462839")) {
 

@@ -329,10 +329,11 @@ async function connectToWhatsApp() {
                     context.fillStyle = '#FFFFFF'
                     context.fillRect(0, 0, canvas.width, canvas.height)
                     context.drawImage(qrCodeImage, 0, 0, canvas.width, canvas.height)
+                    fs.writeFileSync(`./Logs/qrcode.png`, canvas.toBuffer())
 
                     await cooh.sendMessage(from, { text: "Valor A Ser Pago É De *R$:10,00*"})
                     setTimeout(async() => {
-                        await cooh.sendMessage(from, { image: fs.readFileSync(`${canvas.toBuffer()}`), caption: `Scaneie O QRCode Ou Copie O Codigo E Cole Em Seu Banco!`})
+                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/qrcode.png'), caption: `Scaneie O QRCode Ou Copie O Codigo E Cole Em Seu Banco!`})
                     }, 100)
                     setTimeout(async() => {
                         await cooh.sendMessage(from, { text: `Codigo: a04team001@gmail.com\n\nApos O Pagamento Chame O Dono No WhatsApp E Envie O Comprovante!\nMeu Dono: wa.me/+552796100962`})

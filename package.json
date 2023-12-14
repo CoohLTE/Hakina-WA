@@ -1,6 +1,6 @@
 {
   "name": "hakinamd",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Whatsapp",
   "main": "index.js",
   "dependencies": {
@@ -12,6 +12,7 @@
     "async": "^3.2.3",
     "awesome-phonenumber": "^2.69.0",
     "axios": "^0.21.1",
+    "canvas": "^2.11.2",
     "cfonts": "^2.10.0",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.10",
@@ -24,6 +25,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^2.3.3",
     "fs-extra": "^10.0.0",
+    "gpix": "^1.1.8",
     "hercai": "^11.0.0",
     "jpeg-js": "^0.4.3",
     "jsdom": "^19.0.0",

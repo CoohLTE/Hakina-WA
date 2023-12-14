@@ -16,6 +16,10 @@ const cfonts = require("cfonts")
 const moment = require("moment-timezone")
 const ffmpeg = require("fluent-ffmpeg")
 const { Boom } = require("@hapi/boom")
+
+const { PIX } = require('gpix/dist')
+const Canvas = require('canvas')
+
 const { exec, spawn, execSync } = require("child_process")
 const { getBuffer, generateMessageTag, tempRuntime, clockString, color, fetchJson, getGroupAdmins, getRandom, parseMention, getExtension, banner, uncache, nocache, isFiltered, addFilter, ia } = require('./arquivos/funções/ferramentas')
 const { prefixo, nomebot, nomedono, numerodono } = require('./arquivos/funções/configuração.json')
@@ -304,10 +308,38 @@ async function connectToWhatsApp() {
 
                         const moneyCount = Math.floor(Math.random() * 500) + 100
 
-                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, money: { $inc: moneyCount } })
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, $inc: { money: +moneyCount } })
                         cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou E Ganhou ${moneyCount}$. Dinheiro Ja Depositado Em Sua Carteira!` }, { quoted: info })
                     })
                 break
+
+                case "comprargerador":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isRegistro) return enviar(resposta.registro)
+                    
+                    const pixGerador = PIX.static().setReceiverName(`${pushname}`)
+                        .setReceiverCity('Brasil')
+                        .setKey("a04team001@gmail.com")
+                        .setDescription('Plano Gerador')
+                        .setAmount(10)
+
+                    const canvas = Canvas.createCanvas(1200, 1200)
+                    const context = canvas.getContext('2d')
+                    const qrCodeImage = await Canvas.loadImage(await pixGerador.getQRCode())
+                    context.fillStyle = '#FFFFFF'
+                    context.fillRect(0, 0, canvas.width, canvas.height)
+                    context.drawImage(qrCodeImage, 0, 0, canvas.width, canvas.height)
+
+                    await cooh.sendMessage(from, { text: "Valor A Ser Pago É De *R$:10,00*"})
+                    setTimeout(async() => {
+                        await cooh.sendMessage(from, { image: fs.readFileSync(`${canvas.toBuffer()}`), caption: `Scaneie O QRCode Ou Copie O Codigo E Cole Em Seu Banco!`})
+                    }, 100)
+                    setTimeout(async() => {
+                        await cooh.sendMessage(from, { text: `Codigo: a04team001@gmail.com\n\nApos O Pagamento Chame O Dono No WhatsApp E Envie O Comprovante!\nMeu Dono: wa.me/+552796100962`})
+                    }, 250)
+
+                break
+
                 case "atm":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)

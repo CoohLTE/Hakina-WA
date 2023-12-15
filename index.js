@@ -258,28 +258,28 @@ async function connectToWhatsApp() {
                     if (!isGroup) return enviar(resposta.grupo)
                     enviar(`${menu1(prefixo, sender.split("@")[0], pushname)}`)
                     GetLogsCMD(cooh, info, `${prefixo}menu`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
-                break
+                    break
                 case "imagine":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    if(!isRegistro) return enviar(resposta.registro)
-                    if(q == '' || q == undefined || !q) return enviar(`\`\`\`[\`\`\` ⚠️ \`\`\]\`\`\ *Modo De Uso: ${prefixo}imagine _<Texto A Ser Imaginado Como Uma Imagem>_*`)
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
+                    if (q == '' || q == undefined || !q) return enviar(`\`\`\`[\`\`\` ⚠️ \`\`\]\`\`\ *Modo De Uso: ${prefixo}imagine _<Texto A Ser Imaginado Como Uma Imagem>_*`)
                     const Imagine = new hercai.Hercai()
                     enviar(resposta.espere)
                     const cooldownImagine = await UserSchema.find({ telefone: `${sender.split('@')[0]}` })
-                    cooldownImagine.map(async(doc1) => {
-                        if(doc1.TimeImagine && doc1.TimeImagine > Date.now()){
-                            const countdownImagine = tempRuntime((doc1.TimeImagine - Date.now())/1000)
+                    cooldownImagine.map(async (doc1) => {
+                        if (doc1.TimeImagine && doc1.TimeImagine > Date.now()) {
+                            const countdownImagine = tempRuntime((doc1.TimeImagine - Date.now()) / 1000)
                             return cooh.sendMessage(from, { text: `Olá ${pushname} \`\`\`(\`\`\` +${sender.split("@")[0]} \`\`\`)\`\`\`, Está API Está Em Desenvolvimento, Para Uma Melhor Utilização Aguarde ${countdownImagine} Para Utilizar Novamente!` }, { quoted: info })
                         }
 
-                        const repostaImagine = await Imagine.drawImage({ model: 'v2', prompt: `${q}`})
-                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) } )
+                        const repostaImagine = await Imagine.drawImage({ model: 'v2', prompt: `${q}` })
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) })
 
-                        cooh.sendMessage(from, { image: { url: `${repostaImagine.url}`}, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, {quoted: verificado})
+                        cooh.sendMessage(from, { image: { url: `${repostaImagine.url}` }, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, { quoted: verificado })
                         GetLogsCMD(cooh, info, `${prefixo}imagine`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     })
-                break
-             
+                    break
+
                 case "registrar":
                 case "registro":
                 case "rg":
@@ -297,15 +297,15 @@ async function connectToWhatsApp() {
                     break
                 case "work":
                 case "trabalhar":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    if(!isRegistro) return enviar(resposta.registro)
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
                     let timeoutWork = 600000
                     const WorkProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
-                    WorkProcess.map(async(doc1) => {
-                        if(doc1.TimeWork !== null && timeoutWork - (Date.now() - doc1.TimeWork) > 0){
+                    WorkProcess.map(async (doc1) => {
+                        if (doc1.TimeWork !== null && timeoutWork - (Date.now() - doc1.TimeWork) > 0) {
                             const countdownWork = msFunction(timeoutWork - (Date.now() - doc1.TimeWork))
-                            if(countdownWork.minutes > 0) return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.minutes} Minutos E ${countdownWork.seconds} Segundos Para Trabalhar Novamente!`})
-                            if(countdownWork.minutes < 1 && countdownWork.seconds > 0) return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.seconds} Segundos Para Trabalhar Novamente!`})
+                            if (countdownWork.minutes > 0) return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.minutes} Minutos E ${countdownWork.seconds} Segundos Para Trabalhar Novamente!` })
+                            if (countdownWork.minutes < 1 && countdownWork.seconds > 0) return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.seconds} Segundos Para Trabalhar Novamente!` })
                         }
 
                         const moneyCount = Math.floor(Math.random() * 500) + 100
@@ -314,19 +314,19 @@ async function connectToWhatsApp() {
 
                         var workDecision = workJson[Math.floor(Math.random() * workJson.length)]
 
-                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeWork: Date.now() ,$inc: { money: +moneyCount } })
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeWork: Date.now(), $inc: { money: +moneyCount } })
                         cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou De ${workDecision} E Ganhou ${moneyCount}$. O Dinheiro Ja Foi Depositado Em Sua Carteira!` }, { quoted: info })
-                    
+
                     })
-                break
+                    break
 
                 case "doação":
                 case "doar":
                 case "doacao":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    if(!isRegistro) return enviar(resposta.registro)
-                    if(!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar <Valor Para Doar Pro Bot>`)
-                    if(isNaN(args[0])) return enviar(`\`\`\`=->\`\`\` Não Aceitamos O Valor Em Texto!`)
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
+                    if (!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar <Valor Para Doar Pro Bot>`)
+                    if (isNaN(args[0])) return enviar(`\`\`\`=->\`\`\` Não Aceitamos O Valor Em Texto!`)
 
                     const pixGerador = PIX.static().setReceiverName(`${pushname}`)
                         .setReceiverCity('Brasil')
@@ -340,25 +340,24 @@ async function connectToWhatsApp() {
                     context.fillStyle = '#FFFFFF'
                     context.fillRect(0, 0, canvas.width, canvas.height)
                     context.drawImage(qrCodeImage, 0, 0, canvas.width, canvas.height)
-                    fs.writeFileSync(`./Logs/qrcode.png`, canvas.toBuffer()).then(async() => {
-                        
-                        await cooh.sendMessage(from, { text: `Valor A Ser Pago É De *R$:${q}*`})
-                        setTimeout(async() => {
-                            await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/qrcode.png'), caption: `Scaneie O QRCode Ou Copie O Codigo E Cole Em Seu Banco!`})
-                        }, 100)
-                        setTimeout(async() => {
-                            await cooh.sendMessage(from, { text: `Codigo: a04team001@gmail.com`})
-                        }, 250)
-                        
-                    })
+                    fs.writeFileSync(`./Logs/qrcode.png`, canvas.toBuffer())
 
-                break
-                    
+                    await cooh.sendMessage(from, { text: `Valor A Ser Pago É De *R$:${q}*` })
+                    setTimeout(async () => {
+                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/qrcode.png'), caption: `Scaneie O QRCode Ou Copie O Codigo E Cole Em Seu Banco!` })
+                    }, 100)
+                    setTimeout(async () => {
+                        await cooh.sendMessage(from, { text: `Codigo: a04team001@gmail.com` })
+                    }, 250)
+
+
+                    break
+
                 case "atm":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    if(!isRegistro) return enviar(resposta.registro)
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
                     const atmProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
-                    atmProcess.map(async(doc1) => {
+                    atmProcess.map(async (doc1) => {
 
                         /*const money1 = doc1.money, cash1 = doc1.cash, vip1 = ""
 
@@ -368,7 +367,7 @@ async function connectToWhatsApp() {
 
                         cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` 💸 *Carteira:* ${doc1.money >= 0 ? doc1.money : 0}\n\`\`\`=->\`\`\` 🏦 *Cash:* ${doc1.cash >= 0 ? doc1.cash : 0}\n\`\`\`=->\`\`\` 🌟 *VIP:* ${doc1.vip ? "Com VIP" : "Sem VIP"}` }, { quoted: info })
                     })
-                break
+                    break
 
                 case "beijar":
                 case "kiss":
@@ -392,7 +391,7 @@ async function connectToWhatsApp() {
                         if (isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
 
                         enviar(resposta.espere)
-                        setTimeout(async() => {
+                        setTimeout(async () => {
                             await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${sender.split("@")[0]} Deu Um Beijo No(a) @${kissUser1}.`, gifPlayback: true, mentions: [`${sender}`, `${kissUser1}@s.whatsapp.net`] }, { quoted: info })
                             GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                         }, 200)
@@ -408,7 +407,7 @@ async function connectToWhatsApp() {
                         if (isNaN(kissUser2)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
 
                         enviar(resposta.espere)
-                        setTimeout(async() => {
+                        setTimeout(async () => {
                             await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) @${kissUser2}.`, gifPlayback: true, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@s.whatsapp.net`] }, { quoted: info })
                             GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                         }, 200)
@@ -434,7 +433,7 @@ async function connectToWhatsApp() {
                 */
                 default:
 
-                
+
 
                     const messType = Object.keys(info.message)[0]
 

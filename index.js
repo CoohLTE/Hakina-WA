@@ -325,14 +325,14 @@ async function connectToWhatsApp() {
                 case "doacao":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)
-                    if(!q || q == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar <Valor Para Doar Pro Bot>`)
-                    if(isNaN(q)) return enviar(`\`\`\`=->\`\`\` Não Aceitamos O Valor Em Texto!`)
+                    if(!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar <Valor Para Doar Pro Bot>`)
+                    if(isNaN(args[0])) return enviar(`\`\`\`=->\`\`\` Não Aceitamos O Valor Em Texto!`)
 
                     const pixGerador = PIX.static().setReceiverName(`${pushname}`)
                         .setReceiverCity('Brasil')
                         .setKey("a04team001@gmail.com")
                         .setDescription('Doação Para Manter A Hakina')
-                        .setAmount(q)
+                        .setAmount(parseInt(args[0]))
 
                     const canvas = Canvas.createCanvas(1200, 1200)
                     const context = canvas.getContext('2d')

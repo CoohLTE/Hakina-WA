@@ -304,28 +304,35 @@ async function connectToWhatsApp() {
                     WorkProcess.map(async(doc1) => {
                         if(doc1.TimeWork !== null && timeoutWork - (Date.now() - doc1.TimeWork) > 0){
                             const countdownWork = msFunction(timeoutWork - (Date.now() - doc1.TimeWork))
-
                             if(countdownWork.minutes > 0) return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.minutes} Minutos E ${countdownWork.seconds} Segundos Para Trabalhar Novamente!`})
-                            if(countdownWork.minutes < 1 && countdownWork.seconds > 0)  return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.minutes} Minutos E ${countdownWork.seconds} Segundos Para Trabalhar Novamente!`})
-                        
+                            if(countdownWork.minutes < 1 && countdownWork.seconds > 0) return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.seconds} Segundos Para Trabalhar Novamente!`})
                         }
 
                         const moneyCount = Math.floor(Math.random() * 500) + 100
 
+                        var workJson = require('./arquivos/Json/Trabalhos.json')
+
+                        var workDecision = workJson[Math.floor(Math.random() * workJson.length)]
+
                         await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeWork: Date.now() ,$inc: { money: +moneyCount } })
-                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou E Ganhou ${moneyCount}$. O Dinheiro Ja Foi Depositado Em Sua Carteira!` }, { quoted: info })
+                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou De ${workDecision} E Ganhou ${moneyCount}$. O Dinheiro Ja Foi Depositado Em Sua Carteira!` }, { quoted: info })
+                    
                     })
                 break
 
-                /*case "comprargerador":
+                case "doação":
+                case "doar":
+                case "doacao":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)
-                    
+                    if(!q || q == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar <Valor Para Doar Pro Bot>`)
+                    if(isNaN(q)) return enviar(`\`\`\`=->\`\`\` Não Aceitamos O Valor Em Texto!`)
+
                     const pixGerador = PIX.static().setReceiverName(`${pushname}`)
                         .setReceiverCity('Brasil')
                         .setKey("a04team001@gmail.com")
-                        .setDescription('Plano Gerador')
-                        .setAmount(10)
+                        .setDescription('Doação Para Manter A Hakina')
+                        .setAmount(q)
 
                     const canvas = Canvas.createCanvas(1200, 1200)
                     const context = canvas.getContext('2d')
@@ -335,18 +342,18 @@ async function connectToWhatsApp() {
                     context.drawImage(qrCodeImage, 0, 0, canvas.width, canvas.height)
                     fs.writeFileSync(`./Logs/qrcode.png`, canvas.toBuffer()).then(async() => {
                         
-                        await cooh.sendMessage(from, { text: "Valor A Ser Pago É De *R$:10,00*"})
+                        await cooh.sendMessage(from, { text: `Valor A Ser Pago É De *R$:${q}*`})
                         setTimeout(async() => {
                             await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/qrcode.png'), caption: `Scaneie O QRCode Ou Copie O Codigo E Cole Em Seu Banco!`})
                         }, 100)
                         setTimeout(async() => {
-                            await cooh.sendMessage(from, { text: `Codigo: a04team001@gmail.com\n\nApos O Pagamento Chame O Dono No WhatsApp E Envie O Comprovante!\nMeu Dono: wa.me/+552796100962`})
+                            await cooh.sendMessage(from, { text: `Codigo: a04team001@gmail.com`})
                         }, 250)
                         
                     })
 
                 break
-                    */
+                    
                 case "atm":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)

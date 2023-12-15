@@ -36,6 +36,7 @@ const ascii = require('ascii-table')
 const UserSchema = require('./arquivos/SchemaDB/User')
 
 const hercai = require('hercai')
+const { resolve } = require("path")
 
 
 const table = new ascii(`Arquivos Em Funcionamentos`)
@@ -257,7 +258,7 @@ async function connectToWhatsApp() {
                 case "menu":
                     if (!isGroup) return enviar(resposta.grupo)
                     enviar(`${menu1(prefixo, sender.split("@")[0], pushname)}`)
-                    GetLogsCMD(cooh, info, `${prefixo}menu`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
+                    //GetLogsCMD(cooh, info, `${prefixo}menu`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     break
                 case "imagine":
                     if (!isGroup) return enviar(resposta.grupo)
@@ -276,7 +277,7 @@ async function connectToWhatsApp() {
                         await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) })
 
                         cooh.sendMessage(from, { image: { url: `${repostaImagine.url}` }, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, { quoted: verificado })
-                        GetLogsCMD(cooh, info, `${prefixo}imagine`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
+                        //GetLogsCMD(cooh, info, `${prefixo}imagine`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     })
                     break
 
@@ -292,8 +293,7 @@ async function connectToWhatsApp() {
                         money: 0,
                         cash: 0
                     })
-                    cooh.sendMessage(from, { text: `\`\`\`・➤\`\`\` 👤 *Nome:* ${pushname} \`\`\`(\`\`\` ${sender.split("@")[0]} \`\`\`)\`\`\`\n\`\`\`・➤\`\`\` 🗓️ *Data De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️\`\`\`・➤\`\`\` ⌚ *Hora De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} \`\`\`(\`\`\` Horário De Brasília \`\`\`)\`\`\`\n\n⚙️️ Registrado com sucesso` }, { quoted: verificado })
-                    GetLogsCMD(cooh, info, `${prefixo}rg`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
+                    cooh.sendMessage(from, { text: `\`\`\`・➤\`\`\` 👤 *Nome:* ${pushname} \`\`\`(\`\`\` ${sender.split("@")[0]} \`\`\`)\`\`\`\n\`\`\`・➤\`\`\` 🗓️ *Data De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("DD/MM/YYYY")}\n️\`\`\`・➤\`\`\` ⌚ *Hora De Registro:* ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")} \`\`\`(\`\`\` Horário De Brasília \`\`\`)\`\`\`\n\n⚙️️ Registrado com sucesso` }, { quoted: info })
                     break
                 case "work":
                 case "trabalhar":
@@ -320,6 +320,144 @@ async function connectToWhatsApp() {
                     })
                     break
 
+                case "ship":
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
+
+                    if ((!args[0] || args[0] == "") || (!args[1] || args[1] == "")) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @<Pessoa1> @<Pessoa2>`)
+                    if ((args[0] || args[0] != "") && (!args[1] || args[1] == '')) {
+
+                        Canvas.registerFont(resolve("./arquivos/Fontes/Super Dream.ttf"), { family: "Super Dream" })
+                        const canvas = Canvas.createCanvas(480, 195)
+                        const ctx = canvas.getContext("2d")
+                        let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
+
+                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`, 'image')
+                        const user2Avatar = await cooh.profilePictureUrl(`${sender.split("@")[0]}`, 'image')
+
+                        const shipPercentage = Math.floor(Math.random() * 105)
+
+                        const backgroundImage = await Canvas.loadImage(ImageLoad)
+                        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+
+                        const centerX = canvas.width / 2
+                        const centerY = canvas.height / 2
+
+                        const faixa = await Canvas.loadImage('https://i.imgur.com/61XCaCh.png')
+
+                        const faixaWidth = canvas.width - 48
+                        const faixaHeight = 106;
+                        const faixaX = centerX - faixaWidth / 2;
+                        const faixaY = centerY - faixaHeight / 2.1
+                        ctx.drawImage(faixa, faixaX, faixaY, faixaWidth, faixaHeight)
+
+                        const user1Image = await Canvas.loadImage(user1Avatar)
+                        const user2Image = await Canvas.loadImage(user2Avatar)
+
+                        ctx.drawImage(user1Image, 50, 50, 100, 100)
+                        ctx.drawImage(user2Image, 330, 50, 100, 100)
+
+                        ctx.font = `50px Super Dream`;
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
+
+                        fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
+
+                        let messageA = ''
+                        if (shipPercentage >= 40 && shipPercentage <= 50) {
+                            messageA = 'Eles parecem ter uma boa conexão!';
+                        } else if (shipPercentage >= 1 && shipPercentage <= 10) {
+                            messageA = 'Hmmm, talvez seja impossível os dois virar um casal, mas não desista!';
+                        } else if (shipPercentage >= 11 && shipPercentage <= 20) {
+                            messageA = 'Hmmm, talvez ainda haja uma chance muito pequena!';
+                        } else if (shipPercentage >= 21 && shipPercentage <= 39) {
+                            messageA = 'Estou começando a acreditar que os dois possam ser um belo casal!';
+                        } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                            messageA = `Vai depender de @${args[0]}, por mim eu aprovo o casal!`;
+                        } else if (shipPercentage >= 70 && shipPercentage <= 89) {
+                            messageA = 'AWNNN QUE CASAL FOFO!, me convidem para o casamento...';
+                        } else if (shipPercentage >= 90 && shipPercentage <= 105) {
+                            messageA = `O amor transcendeu todos os limites!, @${sender.split("@")[0]} & @${args[0]}, o casamento dos dois está marcado para hoje!`
+                        }
+
+                        setTimeout(async () => {
+                            if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${sender}`, `${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                            } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                            } else {
+                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}` }, { quoted: info })
+                            }
+                        }, 200)
+
+                    } else {
+                        Canvas.registerFont(resolve("./arquivos/Fontes/Super Dream.ttf"), { family: "Super Dream" })
+                        const canvas = Canvas.createCanvas(480, 195)
+                        const ctx = canvas.getContext("2d")
+                        let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
+
+                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`, 'image')
+                        const user2Avatar = await cooh.profilePictureUrl(`${args[1].slice(1)}@c.us`, 'image')
+
+                        const shipPercentage = Math.floor(Math.random() * 105)
+
+                        const backgroundImage = await Canvas.loadImage(ImageLoad)
+                        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+
+                        const centerX = canvas.width / 2
+                        const centerY = canvas.height / 2
+
+                        const faixa = await Canvas.loadImage('https://i.imgur.com/61XCaCh.png')
+
+                        const faixaWidth = canvas.width - 48
+                        const faixaHeight = 106;
+                        const faixaX = centerX - faixaWidth / 2;
+                        const faixaY = centerY - faixaHeight / 2.1
+                        ctx.drawImage(faixa, faixaX, faixaY, faixaWidth, faixaHeight)
+
+                        const user1Image = await Canvas.loadImage(user1Avatar)
+                        const user2Image = await Canvas.loadImage(user2Avatar)
+
+                        ctx.drawImage(user1Image, 50, 50, 100, 100)
+                        ctx.drawImage(user2Image, 330, 50, 100, 100)
+
+                        ctx.font = `50px Super Dream`;
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
+
+                        fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
+
+                        let messageA = ''
+                        if (shipPercentage >= 40 && shipPercentage <= 50) {
+                            messageA = 'Eles parecem ter uma boa conexão!';
+                        } else if (shipPercentage >= 1 && shipPercentage <= 10) {
+                            messageA = 'Hmmm, talvez seja impossível os dois virar um casal, mas não desista!';
+                        } else if (shipPercentage >= 11 && shipPercentage <= 20) {
+                            messageA = 'Hmmm, talvez ainda haja uma chance muito pequena!';
+                        } else if (shipPercentage >= 21 && shipPercentage <= 39) {
+                            messageA = 'Estou começando a acreditar que os dois possam ser um belo casal!';
+                        } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                            messageA = `Vai depender de @${args[1]}, por mim eu aprovo o casal!`;
+                        } else if (shipPercentage >= 70 && shipPercentage <= 89) {
+                            messageA = 'AWNNN QUE CASAL FOFO!, me convidem para o casamento...';
+                        } else if (shipPercentage >= 90 && shipPercentage <= 105) {
+                            messageA = `O amor transcendeu todos os limites!, @${args[0]} & @${args[1]}, o casamento dos dois está marcado para hoje!`
+                        }
+
+                        setTimeout(async () => {
+                            if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[0]}@s.whatsapp.net`, `${args[1]}@s.whatsapp.net`] }, { quoted: info })
+                            } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[1]}@s.whatsapp.net`] }, { quoted: info })
+                            } else {
+                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}` }, { quoted: info })
+                            }
+                        }, 200)
+                    }
+
+                    break
                 case "doação":
                 case "doar":
                 case "doacao":
@@ -393,7 +531,7 @@ async function connectToWhatsApp() {
                         enviar(resposta.espere)
                         setTimeout(async () => {
                             await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${sender.split("@")[0]} Deu Um Beijo No(a) @${kissUser1}.`, gifPlayback: true, mentions: [`${sender}`, `${kissUser1}@s.whatsapp.net`] }, { quoted: info })
-                            GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
+                            //GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                         }, 200)
 
 
@@ -409,7 +547,7 @@ async function connectToWhatsApp() {
                         enviar(resposta.espere)
                         setTimeout(async () => {
                             await cooh.sendMessage(from, { video: kissR1, caption: `O(A) @${kissUser1} Deu Um Beijo No(a) @${kissUser2}.`, gifPlayback: true, mentions: [`${kissUser1}@whatsapp.net`, `${kissUser2}@s.whatsapp.net`] }, { quoted: info })
-                            GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
+                            //GetLogsCMD(cooh, info, `${prefixo}kiss`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                         }, 200)
 
                     }

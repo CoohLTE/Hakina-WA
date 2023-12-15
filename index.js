@@ -299,21 +299,22 @@ async function connectToWhatsApp() {
                 case "trabalhar":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)
+                    let timeoutWork = 600000
                     const WorkProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
                     WorkProcess.map(async(doc1) => {
-                        if(doc1.TimeWork && doc1.TimeWork > Date.now()){
-                            const countdownWork = tempRuntime((doc1.TimeWork - Date.now())/1000)
+                        if(doc1.TimeWork && (doc1.TimeWork - timeoutWork) > Date.now()){
+                            const countdownWork = tempRuntime(doc1.TimeWork - Date.now())
                             return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork} Para Trabalhar Novamente!`})
                         }
 
                         const moneyCount = Math.floor(Math.random() * 500) + 100
 
-                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, $inc: { money: +moneyCount } })
-                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou E Ganhou ${moneyCount}$. Dinheiro Ja Depositado Em Sua Carteira!` }, { quoted: info })
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeWork: `${Date.now()}` ,$inc: { money: +moneyCount } })
+                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou E Ganhou ${moneyCount}$. O Dinheiro Ja Foi Depositado Em Sua Carteira!` }, { quoted: info })
                     })
                 break
 
-                case "comprargerador":
+                /*case "comprargerador":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)
                     
@@ -342,7 +343,7 @@ async function connectToWhatsApp() {
                     })
 
                 break
-
+                    */
                 case "atm":
                     if(!isGroup) return enviar(resposta.grupo)
                     if(!isRegistro) return enviar(resposta.registro)
@@ -427,10 +428,7 @@ async function connectToWhatsApp() {
 
                     const messType = Object.keys(info.message)[0]
 
-                    console.log(messType)
-                    console.log(info.message.stickerMessage)
-                    //console.log(info.message.senderKeyDistributionMessage.axolotlSenderKeyDistributionMessage)
-                    //console.log(info.message.senderKeyDistributionMessage)
+                    //console.log(messType)
 
                     if (body.trim().split(/ +/).shift().toLocaleLowerCase().includes("@5527992462839")) {
 

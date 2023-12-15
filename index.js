@@ -21,7 +21,7 @@ const { PIX } = require('gpix/dist')
 const Canvas = require('canvas')
 
 const { exec, spawn, execSync } = require("child_process")
-const { getBuffer, generateMessageTag, tempRuntime, clockString, color, fetchJson, getGroupAdmins, getRandom, parseMention, getExtension, banner, uncache, nocache, isFiltered, addFilter, ia } = require('./arquivos/funções/ferramentas')
+const { getBuffer, generateMessageTag, tempRuntime, clockString, color, fetchJson, getGroupAdmins, getRandom, parseMention, getExtension, banner, uncache, nocache, isFiltered, addFilter, ia, msFunction } = require('./arquivos/funções/ferramentas')
 const { prefixo, nomebot, nomedono, numerodono } = require('./arquivos/funções/configuração.json')
 
 const options = { timeZone: 'America/Sao_Paulo', hour12: false }
@@ -302,14 +302,17 @@ async function connectToWhatsApp() {
                     let timeoutWork = 600000
                     const WorkProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
                     WorkProcess.map(async(doc1) => {
-                        if(doc1.TimeWork && (doc1.TimeWork - timeoutWork) > Date.now()){
-                            const countdownWork = tempRuntime(doc1.TimeWork - Date.now())
-                            return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork} Para Trabalhar Novamente!`})
+                        if(doc1.TimeWork !== null && timeoutWork - (Date.now() - doc1.TimeWork) > 0){
+                            const countdownWork = msFunction(timeoutWork - (Date.now() - doc1.TimeWork))
+
+                            if(countdownWork.minutes > 0) return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.minutes} Minutos E ${countdownWork.seconds} Segundos Para Trabalhar Novamente!`})
+                            if(countdownWork.minutes < 1 && countdownWork.seconds > 0)  return cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ⚠️ Aguarde ${countdownWork.minutes} Minutos E ${countdownWork.seconds} Segundos Para Trabalhar Novamente!`})
+                        
                         }
 
                         const moneyCount = Math.floor(Math.random() * 500) + 100
 
-                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeWork: `${Date.now()}` ,$inc: { money: +moneyCount } })
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeWork: Date.now() ,$inc: { money: +moneyCount } })
                         cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` ✅ Você Trabalhou E Ganhou ${moneyCount}$. O Dinheiro Ja Foi Depositado Em Sua Carteira!` }, { quoted: info })
                     })
                 break

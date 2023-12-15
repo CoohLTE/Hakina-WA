@@ -14,6 +14,15 @@ const generateMessageTag = async (epoch) => {
     return tag;
 }
 
+function msFunction(ms){
+    var seconds = ~~(ms/1000)
+    var minutes = ~~(seconds/60)
+    var hours = ~~(minutes/60)
+    var days = ~~(hours/24)
+
+    return { days, hours: hours%24 , minutes: minutes%60, seconds: seconds%60 }
+}
+
 const processTime = async (timestamp, now) => {
     return moment.duration(now - moment(timestamp * 1000)).asSeconds()
 }
@@ -129,4 +138,4 @@ const addFilter = (from) => {
     setTimeout(() => usedCommandRecently.delete(from), 5000)
 }
 
-module.exports = { getBuffer, generateMessageTag, tempRuntime, clockString, color, fetchJson, getGroupAdmins, getRandom, parseMention, getExtension, banner, uncache, nocache, isFiltered, addFilter }
+module.exports = { msFunction, getBuffer, generateMessageTag, tempRuntime, clockString, color, fetchJson, getGroupAdmins, getRandom, parseMention, getExtension, banner, uncache, nocache, isFiltered, addFilter }

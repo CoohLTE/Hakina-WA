@@ -16,8 +16,6 @@ const menu1 = (prefixo, sender, pushname) => {
 ┣ ⩺ ${prefixo}work
 ┣ ⩺ ${prefixo}atm
 ╰━━〢⎙ Economia ️━━╯
-
-
 `
 }
 

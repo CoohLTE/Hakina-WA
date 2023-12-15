@@ -347,7 +347,7 @@ async function connectToWhatsApp() {
                         await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/qrcode.png'), caption: `Scaneie O QRCode Ou Copie O Codigo E Cole Em Seu Banco!` })
                     }, 100)
                     setTimeout(async () => {
-                        await cooh.sendMessage(from, { text: `Codigo: a04team001@gmail.com` })
+                        await cooh.sendMessage(from, { text: `Codigo: ${pixGerador.getBRCode()}` })
                     }, 250)
 
 

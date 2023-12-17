@@ -325,7 +325,7 @@ async function connectToWhatsApp() {
                     if (!isRegistro) return enviar(resposta.registro)
 
                     if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @<Pessoa1> @<Pessoa2>`)
-                    if ((args[0] || args[0] != "") && (!args[1] || args[1] == '')) {
+                    if (args[1] == '' || args[1] == undefined || !args[1]) {
 
                         Canvas.registerFont(resolve("./arquivos/Fontes/Super Dream.ttf"), { family: "Super Dream" })
                         const canvas = Canvas.createCanvas(480, 195)

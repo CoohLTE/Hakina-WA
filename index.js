@@ -334,9 +334,9 @@ async function connectToWhatsApp() {
 
                         console.log(sender)
 
-                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`)
+                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`)
                         if(!user1Avatar || user1Avatar == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
-                        const user2Avatar = await cooh.profilePictureUrl(`${sender.split("@")[0]}@c.us`)
+                        const user2Avatar = await cooh.profilePictureUrl(`${sender}`)
                         if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
 
                         const shipPercentage = Math.floor(Math.random() * 105)

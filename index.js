@@ -332,12 +332,14 @@ async function connectToWhatsApp() {
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
 
-                        console.log(sender)
+                        
 
-                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image").then(() => {}).catch((err) => {
-                            if(err || err == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
-                        })
+                        //const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
+                        if(!await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image") || await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image") == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
+                        else user1Avatar = cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
+
                         console.log(user1Avatar)
+
                         const user2Avatar = await cooh.profilePictureUrl(`${sender}`)
                         if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
 

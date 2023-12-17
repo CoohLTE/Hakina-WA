@@ -332,7 +332,7 @@ async function connectToWhatsApp() {
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
 
-                        console.log(sender.split("@")[0])
+                        console.log(sender)
 
                         const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`)
                         if(!user1Avatar || user1Avatar == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"

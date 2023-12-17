@@ -332,9 +332,11 @@ async function connectToWhatsApp() {
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
 
-                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`, 'image')
+                        console.log(sender.split("@")[0])
+
+                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`)
                         if(!user1Avatar || user1Avatar == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
-                        const user2Avatar = await cooh.profilePictureUrl(`${sender.split("@")[0]}`, 'image')
+                        const user2Avatar = await cooh.profilePictureUrl(`${sender.split("@")[0]}`)
                         if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
 
                         const shipPercentage = Math.floor(Math.random() * 105)

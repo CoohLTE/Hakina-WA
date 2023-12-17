@@ -335,6 +335,9 @@ async function connectToWhatsApp() {
                         const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, 'image')
                         const user2Avatar = await cooh.profilePictureUrl(`${sender.split("@")[0]}`, 'image')
 
+                        console.log(user1Avatar)
+                        console.log(user2Avatar)
+
                         const shipPercentage = Math.floor(Math.random() * 105)
 
                         const backgroundImage = await Canvas.loadImage(ImageLoad)

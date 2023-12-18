@@ -334,9 +334,9 @@ async function connectToWhatsApp() {
 
                         console.log(sender)
 
-                        const user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png" // await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
+                        const user1Avatar = "https://media.discordapp.net/attachments/1024999862095331339/1186099721635377254/sem-imagem-avatar.png?ex=65920472&is=657f8f72&hm=53f1678c053a52ffa847332b6b123c2303a36ea0c790a3e966a271bccfd410f5&=&format=webp&quality=lossless&width=500&height=500" // await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
                         //if(!user1Avatar || user1Avatar == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
-                        const user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png" //await cooh.profilePictureUrl(`${sender}`, "image")
+                        const user2Avatar = "https://media.discordapp.net/attachments/1024999862095331339/1186099721635377254/sem-imagem-avatar.png?ex=65920472&is=657f8f72&hm=53f1678c053a52ffa847332b6b123c2303a36ea0c790a3e966a271bccfd410f5&=&format=webp&quality=lossless&width=500&height=500" //await cooh.profilePictureUrl(`${sender}`, "image")
                         //if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
 
                         const shipPercentage = Math.floor(Math.random() * 105)
@@ -396,7 +396,7 @@ async function connectToWhatsApp() {
                         }, 200)
 
                     } else {
-                        Canvas.registerFont(resolve("./arquivos/Fontes/Super Dream.ttf"), { family: "Super Dream" })
+                        Canvas.registerFont(resolve("./arquivos/Fontes/Super_Dream.ttf"), { family: "Super Dream" })
                         const canvas = Canvas.createCanvas(480, 195)
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
@@ -404,9 +404,9 @@ async function connectToWhatsApp() {
                         //const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`, 'image')
                         //const user2Avatar = await cooh.profilePictureUrl(`${args[1].slice(1)}@c.us`, 'image')
 
-                        const user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png" // await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
+                        const user1Avatar = "https://media.discordapp.net/attachments/1024999862095331339/1186099721635377254/sem-imagem-avatar.png?ex=65920472&is=657f8f72&hm=53f1678c053a52ffa847332b6b123c2303a36ea0c790a3e966a271bccfd410f5&=&format=webp&quality=lossless&width=500&height=500" // await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
                         //if(!user1Avatar || user1Avatar == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
-                        const user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png" //await cooh.profilePictureUrl(`${args[1].slice(1)}@c.us`, "image")
+                        const user2Avatar = "https://media.discordapp.net/attachments/1024999862095331339/1186099721635377254/sem-imagem-avatar.png?ex=65920472&is=657f8f72&hm=53f1678c053a52ffa847332b6b123c2303a36ea0c790a3e966a271bccfd410f5&=&format=webp&quality=lossless&width=500&height=500" //await cooh.profilePictureUrl(`${args[1].slice(1)}@c.us`, "image")
                         //if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
 
 

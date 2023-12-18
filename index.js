@@ -320,6 +320,25 @@ async function connectToWhatsApp() {
                     })
                     break
 
+                case "roubar":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isRegistro) return enviar(resposta.registro)
+
+                    if(!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}roubar @<Pessoa>`)
+                    
+                    const pRoubar1 = args[1].slice(1)
+                    
+                    if(isNaN(pRoubar1)) return enviar(`\`\`\`=->\`\`\` Não Aceitamos Numero Em Forma De Texto (String)!`)
+                    
+                    const ValorRoubar = Math.floor(Math.random() * 200) + 1
+
+                    await UserSchema.findOneAndUpdate({ telefone: `${pRoubar1}` }, { telefone: `${pRoubar1}`, $inc: { money: -ValorRoubar } })
+                    await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, $inc: { money: +ValorRoubar } })
+
+                    await cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` *Vitima:* @${pRoubar1}\n\`\`\`=->\`\`\` *Ladrão:* @${sender.split("@")[0]}\`\`\`=->\`\`\` *Quantia Roubada:* ${ValorRoubar}$`, mentions: [ `${pRoubar1}@s.whatsapp.net`, `${sender}` ]})
+
+                break
+
                 case "ship":
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)

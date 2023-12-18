@@ -332,68 +332,245 @@ async function connectToWhatsApp() {
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
 
-                        console.log(sender)
+                        //console.log(sender)
 
-                        const user1Avatar = cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
-                        if(!user1Avatar || user1Avatar == "item-not-found") user1Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
-                        const user2Avatar = await cooh.profilePictureUrl(`${sender}`, "image")
-                        if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
+                        await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image").then(async (url1) => {
+                            await cooh.profilePictureUrl(`${sender}`, "image").then(async (url2) => {
+                                const shipPercentage = Math.floor(Math.random() * 105)
 
-                        const shipPercentage = Math.floor(Math.random() * 105)
+                                const backgroundImage = await Canvas.loadImage(ImageLoad)
+                                ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
 
-                        const backgroundImage = await Canvas.loadImage(ImageLoad)
-                        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+                                const centerX = canvas.width / 2
+                                const centerY = canvas.height / 2
 
-                        const centerX = canvas.width / 2
-                        const centerY = canvas.height / 2
+                                const faixa = await Canvas.loadImage('https://i.imgur.com/61XCaCh.png')
 
-                        const faixa = await Canvas.loadImage('https://i.imgur.com/61XCaCh.png')
+                                const faixaWidth = canvas.width - 48
+                                const faixaHeight = 106;
+                                const faixaX = centerX - faixaWidth / 2;
+                                const faixaY = centerY - faixaHeight / 2.1
+                                ctx.drawImage(faixa, faixaX, faixaY, faixaWidth, faixaHeight)
 
-                        const faixaWidth = canvas.width - 48
-                        const faixaHeight = 106;
-                        const faixaX = centerX - faixaWidth / 2;
-                        const faixaY = centerY - faixaHeight / 2.1
-                        ctx.drawImage(faixa, faixaX, faixaY, faixaWidth, faixaHeight)
+                                const user1Image = await Canvas.loadImage(url1)
+                                const user2Image = await Canvas.loadImage(url2)
 
-                        const user1Image = await Canvas.loadImage(user1Avatar)
-                        const user2Image = await Canvas.loadImage(user2Avatar)
+                                ctx.drawImage(user1Image, 50, 50, 100, 100)
+                                ctx.drawImage(user2Image, 330, 50, 100, 100)
 
-                        ctx.drawImage(user1Image, 50, 50, 100, 100)
-                        ctx.drawImage(user2Image, 330, 50, 100, 100)
+                                ctx.font = `50px Super Dream`;
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
 
-                        ctx.font = `50px Super Dream`;
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign = 'center';
-                        ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
+                                fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
 
-                        fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
+                                let messageA = ''
+                                if (shipPercentage >= 40 && shipPercentage <= 50) {
+                                    messageA = 'Eles parecem ter uma boa conexão!';
+                                } else if (shipPercentage >= 1 && shipPercentage <= 10) {
+                                    messageA = 'Hmmm, talvez seja impossível os dois virar um casal, mas não desista!';
+                                } else if (shipPercentage >= 11 && shipPercentage <= 20) {
+                                    messageA = 'Hmmm, talvez ainda haja uma chance muito pequena!';
+                                } else if (shipPercentage >= 21 && shipPercentage <= 39) {
+                                    messageA = 'Estou começando a acreditar que os dois possam ser um belo casal!';
+                                } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                    messageA = `Vai depender de @${args[0]}, por mim eu aprovo o casal!`;
+                                } else if (shipPercentage >= 70 && shipPercentage <= 89) {
+                                    messageA = 'AWNNN QUE CASAL FOFO!, me convidem para o casamento...';
+                                } else if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                    messageA = `O amor transcendeu todos os limites!, @${sender.split("@")[0]} & @${args[0]}, o casamento dos dois está marcado para hoje!`
+                                }
 
-                        let messageA = ''
-                        if (shipPercentage >= 40 && shipPercentage <= 50) {
-                            messageA = 'Eles parecem ter uma boa conexão!';
-                        } else if (shipPercentage >= 1 && shipPercentage <= 10) {
-                            messageA = 'Hmmm, talvez seja impossível os dois virar um casal, mas não desista!';
-                        } else if (shipPercentage >= 11 && shipPercentage <= 20) {
-                            messageA = 'Hmmm, talvez ainda haja uma chance muito pequena!';
-                        } else if (shipPercentage >= 21 && shipPercentage <= 39) {
-                            messageA = 'Estou começando a acreditar que os dois possam ser um belo casal!';
-                        } else if (shipPercentage >= 51 && shipPercentage <= 69) {
-                            messageA = `Vai depender de @${args[0]}, por mim eu aprovo o casal!`;
-                        } else if (shipPercentage >= 70 && shipPercentage <= 89) {
-                            messageA = 'AWNNN QUE CASAL FOFO!, me convidem para o casamento...';
-                        } else if (shipPercentage >= 90 && shipPercentage <= 105) {
-                            messageA = `O amor transcendeu todos os limites!, @${sender.split("@")[0]} & @${args[0]}, o casamento dos dois está marcado para hoje!`
-                        }
+                                setTimeout(async () => {
+                                    if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${sender}`, `${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}` }, { quoted: info })
+                                    }
+                                }, 200)
 
-                        setTimeout(async () => {
-                            if (shipPercentage >= 90 && shipPercentage <= 105) {
-                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${sender}`, `${args[0]}@s.whatsapp.net`] }, { quoted: info })
-                            } else if (shipPercentage >= 51 && shipPercentage <= 69) {
-                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[0]}@s.whatsapp.net`] }, { quoted: info })
-                            } else {
-                                await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}` }, { quoted: info })
-                            }
-                        }, 200)
+
+                            }).catch(async (err2) => {
+                                if (err2 || err2 == "item-not-found") err2 = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
+                                const shipPercentage = Math.floor(Math.random() * 105)
+
+                                const backgroundImage = await Canvas.loadImage(ImageLoad)
+                                ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+
+                                const centerX = canvas.width / 2
+                                const centerY = canvas.height / 2
+
+                                const faixa = await Canvas.loadImage('https://i.imgur.com/61XCaCh.png')
+
+                                const faixaWidth = canvas.width - 48
+                                const faixaHeight = 106;
+                                const faixaX = centerX - faixaWidth / 2;
+                                const faixaY = centerY - faixaHeight / 2.1
+                                ctx.drawImage(faixa, faixaX, faixaY, faixaWidth, faixaHeight)
+
+                                const user1Image = await Canvas.loadImage(url1)
+                                const user2Image = await Canvas.loadImage(err2)
+
+                                ctx.drawImage(user1Image, 50, 50, 100, 100)
+                                ctx.drawImage(user2Image, 330, 50, 100, 100)
+
+                                ctx.font = `50px Super Dream`;
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
+
+                                fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
+
+                                let messageA = ''
+                                if (shipPercentage >= 40 && shipPercentage <= 50) {
+                                    messageA = 'Eles parecem ter uma boa conexão!';
+                                } else if (shipPercentage >= 1 && shipPercentage <= 10) {
+                                    messageA = 'Hmmm, talvez seja impossível os dois virar um casal, mas não desista!';
+                                } else if (shipPercentage >= 11 && shipPercentage <= 20) {
+                                    messageA = 'Hmmm, talvez ainda haja uma chance muito pequena!';
+                                } else if (shipPercentage >= 21 && shipPercentage <= 39) {
+                                    messageA = 'Estou começando a acreditar que os dois possam ser um belo casal!';
+                                } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                    messageA = `Vai depender de @${args[0]}, por mim eu aprovo o casal!`;
+                                } else if (shipPercentage >= 70 && shipPercentage <= 89) {
+                                    messageA = 'AWNNN QUE CASAL FOFO!, me convidem para o casamento...';
+                                } else if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                    messageA = `O amor transcendeu todos os limites!, @${sender.split("@")[0]} & @${args[0]}, o casamento dos dois está marcado para hoje!`
+                                }
+
+                                setTimeout(async () => {
+                                    if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${sender}`, `${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}` }, { quoted: info })
+                                    }
+                                }, 200)
+
+                            })
+                        }).catch(async (err1) => {
+                            if (err1 || err1 == "item-not-found") err1 = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
+                            await cooh.profilePictureUrl(`${sender}`, "image").then(async (url2) => {
+
+                                const shipPercentage = Math.floor(Math.random() * 105)
+
+                                const backgroundImage = await Canvas.loadImage(ImageLoad)
+                                ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+
+                                const centerX = canvas.width / 2
+                                const centerY = canvas.height / 2
+
+                                const faixa = await Canvas.loadImage('https://i.imgur.com/61XCaCh.png')
+
+                                const faixaWidth = canvas.width - 48
+                                const faixaHeight = 106;
+                                const faixaX = centerX - faixaWidth / 2;
+                                const faixaY = centerY - faixaHeight / 2.1
+                                ctx.drawImage(faixa, faixaX, faixaY, faixaWidth, faixaHeight)
+
+                                const user1Image = await Canvas.loadImage(err1)
+                                const user2Image = await Canvas.loadImage(url2)
+
+                                ctx.drawImage(user1Image, 50, 50, 100, 100)
+                                ctx.drawImage(user2Image, 330, 50, 100, 100)
+
+                                ctx.font = `50px Super Dream`;
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
+
+                                fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
+
+                                let messageA = ''
+                                if (shipPercentage >= 40 && shipPercentage <= 50) {
+                                    messageA = 'Eles parecem ter uma boa conexão!';
+                                } else if (shipPercentage >= 1 && shipPercentage <= 10) {
+                                    messageA = 'Hmmm, talvez seja impossível os dois virar um casal, mas não desista!';
+                                } else if (shipPercentage >= 11 && shipPercentage <= 20) {
+                                    messageA = 'Hmmm, talvez ainda haja uma chance muito pequena!';
+                                } else if (shipPercentage >= 21 && shipPercentage <= 39) {
+                                    messageA = 'Estou começando a acreditar que os dois possam ser um belo casal!';
+                                } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                    messageA = `Vai depender de @${args[0]}, por mim eu aprovo o casal!`;
+                                } else if (shipPercentage >= 70 && shipPercentage <= 89) {
+                                    messageA = 'AWNNN QUE CASAL FOFO!, me convidem para o casamento...';
+                                } else if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                    messageA = `O amor transcendeu todos os limites!, @${sender.split("@")[0]} & @${args[0]}, o casamento dos dois está marcado para hoje!`
+                                }
+
+                                setTimeout(async () => {
+                                    if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${sender}`, `${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}` }, { quoted: info })
+                                    }
+                                }, 200)
+
+                            }).catch(async (err2) => {
+                                if (err2 || err2 == "item-not-found") err2 = "https://coohzitos.tixte.co/r/sem-imagem-avatar.png"
+                                const shipPercentage = Math.floor(Math.random() * 105)
+
+                                const backgroundImage = await Canvas.loadImage(ImageLoad)
+                                ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+
+                                const centerX = canvas.width / 2
+                                const centerY = canvas.height / 2
+
+                                const faixa = await Canvas.loadImage('https://i.imgur.com/61XCaCh.png')
+
+                                const faixaWidth = canvas.width - 48
+                                const faixaHeight = 106;
+                                const faixaX = centerX - faixaWidth / 2;
+                                const faixaY = centerY - faixaHeight / 2.1
+                                ctx.drawImage(faixa, faixaX, faixaY, faixaWidth, faixaHeight)
+
+                                const user1Image = await Canvas.loadImage(err1)
+                                const user2Image = await Canvas.loadImage(err2)
+
+                                ctx.drawImage(user1Image, 50, 50, 100, 100)
+                                ctx.drawImage(user2Image, 330, 50, 100, 100)
+
+                                ctx.font = `50px Super Dream`;
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign = 'center';
+                                ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
+
+                                fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
+
+                                let messageA = ''
+                                if (shipPercentage >= 40 && shipPercentage <= 50) {
+                                    messageA = 'Eles parecem ter uma boa conexão!';
+                                } else if (shipPercentage >= 1 && shipPercentage <= 10) {
+                                    messageA = 'Hmmm, talvez seja impossível os dois virar um casal, mas não desista!';
+                                } else if (shipPercentage >= 11 && shipPercentage <= 20) {
+                                    messageA = 'Hmmm, talvez ainda haja uma chance muito pequena!';
+                                } else if (shipPercentage >= 21 && shipPercentage <= 39) {
+                                    messageA = 'Estou começando a acreditar que os dois possam ser um belo casal!';
+                                } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                    messageA = `Vai depender de @${args[0]}, por mim eu aprovo o casal!`;
+                                } else if (shipPercentage >= 70 && shipPercentage <= 89) {
+                                    messageA = 'AWNNN QUE CASAL FOFO!, me convidem para o casamento...';
+                                } else if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                    messageA = `O amor transcendeu todos os limites!, @${sender.split("@")[0]} & @${args[0]}, o casamento dos dois está marcado para hoje!`
+                                }
+
+                                setTimeout(async () => {
+                                    if (shipPercentage >= 90 && shipPercentage <= 105) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${sender}`, `${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else if (shipPercentage >= 51 && shipPercentage <= 69) {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}`, mentions: [`${args[0]}@s.whatsapp.net`] }, { quoted: info })
+                                    } else {
+                                        await cooh.sendMessage(from, { image: fs.readFileSync('./Logs/ship.png'), caption: `${messageA}` }, { quoted: info })
+                                    }
+                                }, 200)
+                            })
+                        })
 
                     } else {
                         Canvas.registerFont(resolve("./arquivos/Fontes/Super Dream.ttf"), { family: "Super Dream" })

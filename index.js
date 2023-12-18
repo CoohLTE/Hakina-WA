@@ -326,7 +326,7 @@ async function connectToWhatsApp() {
 
                     if(!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}roubar @<Pessoa>`)
                     
-                    const pRoubar1 = args[1].slice(1)
+                    const pRoubar1 = args[0].slice(1)
                     
                     if(isNaN(pRoubar1)) return enviar(`\`\`\`=->\`\`\` Não Aceitamos Numero Em Forma De Texto (String)!`)
                     

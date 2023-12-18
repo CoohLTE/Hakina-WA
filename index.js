@@ -34,6 +34,7 @@ const timestamp = speed()
 const latensi = speed() - timestamp
 const ascii = require('ascii-table')
 const UserSchema = require('./arquivos/SchemaDB/User')
+const RoubarSchema = require("./arquivos/SchemaDB/Roubar")
 
 const hercai = require('hercai')
 const { resolve } = require("path")
@@ -321,23 +322,39 @@ async function connectToWhatsApp() {
                     break
 
                 case "roubar":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    if(!isRegistro) return enviar(resposta.registro)
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
 
-                    if(!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}roubar @<Pessoa>`)
-                    
+                    if (!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}roubar @<Pessoa>`)
+
                     const pRoubar1 = args[0].slice(1)
-                    
-                    if(isNaN(pRoubar1)) return enviar(`\`\`\`=->\`\`\` Não Aceitamos Numero Em Forma De Texto (String)!`)
-                    
-                    const ValorRoubar = Math.floor(Math.random() * 200) + 1
 
-                    await UserSchema.findOneAndUpdate({ telefone: `${pRoubar1}` }, { telefone: `${pRoubar1}`, $inc: { money: -ValorRoubar } })
-                    await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, $inc: { money: +ValorRoubar } })
+                    if (isNaN(pRoubar1)) return enviar(`\`\`\`=->\`\`\` Não Aceitamos Numero Em Forma De Texto (String)!`)
 
-                    await cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` *Vitima:* @${pRoubar1}\n\`\`\`=->\`\`\` *Ladrão:* @${sender.split("@")[0]}\`\`\`=->\`\`\` *Quantia Roubada:* ${ValorRoubar}$`, mentions: [ `${pRoubar1}@s.whatsapp.net`, `${sender}` ]})
+                    let timeoutRoubo = 900000
 
-                break
+                    const Roubo = await RoubarSchema.find({ User: `Teste` })
+
+                    Roubo.map(async (doc1) => {
+
+                        if (doc1.Time !== null && timeoutRoubo - (Date.now() - doc1.Time) > 0) {
+
+                            const countdownRoubo = msFunction(timeoutWork - (Date.now() - doc1.Time))
+                            await cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` Você So Pode Roubar Daqui ${countdownRoubo.minutes} Minutos E ${countdownRoubo.seconds} Segundos`})
+                            
+                        } else {
+
+                            const ValorRoubar = Math.floor(Math.random() * 200) + 1
+
+                            await UserSchema.findOneAndUpdate({ telefone: `${pRoubar1}` }, { telefone: `${pRoubar1}`, $inc: { money: -ValorRoubar } })
+                            await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, $inc: { money: +ValorRoubar } })
+
+                            await cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` *Vitima:* @${pRoubar1}\n\`\`\`=->\`\`\` *Ladrão:* @${sender.split("@")[0]}\n\`\`\`=->\`\`\` *Quantia Roubada:* ${ValorRoubar}$`, mentions: [`${pRoubar1}@s.whatsapp.net`, `${sender}`] })
+
+                        }
+                    })
+
+                    break
 
                 case "ship":
                     if (!isGroup) return enviar(resposta.grupo)

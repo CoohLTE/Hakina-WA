@@ -264,7 +264,7 @@ async function connectToWhatsApp() {
                 case "imagine":
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)
-                    if (q == '' || q == undefined || !q) return enviar(`\`\`\`[\`\`\` ⚠️ \`\`\]\`\`\ *Modo De Uso: ${prefixo}imagine _<Texto A Ser Imaginado Como Uma Imagem>_*`)
+                    if (q == '' || q == undefined || !q) return enviar(`\`\`\`[\`\`\` ⚠️ \`\`\]\`\`\ *Modo De Uso: ${prefixo}imagine _Texto A Ser Imaginado Como Uma Imagem>_*`)
                     const Imagine = new hercai.Hercai()
                     enviar(resposta.espere)
                     const cooldownImagine = await UserSchema.find({ telefone: `${sender.split('@')[0]}` })
@@ -325,7 +325,7 @@ async function connectToWhatsApp() {
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)
 
-                    if (!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}roubar @<Pessoa>`)
+                    if (!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}roubar @Pessoa`)
 
                     const pRoubar1 = args[0].slice(1)
 
@@ -360,7 +360,7 @@ async function connectToWhatsApp() {
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)
 
-                    if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @<Pessoa1> @<Pessoa2>`)
+                    if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @Pessoa1> @Pessoa2`)
                     if (args[1] == '' || args[1] == undefined || !args[1]) {
 
                         Canvas.registerFont(resolve("./arquivos/Fontes/Super_Dream.ttf"), { family: "Super Dream" })
@@ -509,9 +509,9 @@ async function connectToWhatsApp() {
                 case "doacao":
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)
-                    if (!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar <Valor Para Doar Pro Bot>`)
+                    if (!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar Valor Para Doar Pro Bot`)
                     if (isNaN(args[0])) return enviar(`\`\`\`=->\`\`\` Não Aceitamos O Valor Em Texto!`)
-
+                    if(args[0].length >= 100) return enviar(`\`\`\`=->\`\`\` Não Aceitamos Valor Acima De R$:999`)
                     const pixGerador = PIX.static().setReceiverName(`${pushname}`)
                         .setReceiverCity('Brasil')
                         .setKey("a04team001@gmail.com")
@@ -564,7 +564,7 @@ async function connectToWhatsApp() {
                         './arquivos/Videos/Kiss/3aX4Qq2.mp4',
                         './arquivos/Videos/Kiss/uobBW9K.mp4'
                     ]
-                    if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+                    if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @Pessoa1> @Pessoa2`)
                     if (args[1] == '' || args[1] == undefined || !args[1]) {
 
                         const kissUser1 = args[0].slice(1)
@@ -572,7 +572,7 @@ async function connectToWhatsApp() {
                         const kissR1 = fs.readFileSync(kissList1[Math.floor(Math.random() * kissList1.length)])
 
 
-                        if (isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+                        if (isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @Pessoa1> @Pessoa2`)
 
                         enviar(resposta.espere)
                         setTimeout(async () => {
@@ -586,9 +586,9 @@ async function connectToWhatsApp() {
                         const kissR1 = fs.readFileSync(kissList1[Math.floor(Math.random() * kissList1.length)])
 
                         const kissUser1 = args[0].slice(1)
-                        if (isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+                        if (isNaN(kissUser1)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @Pessoa1> @Pessoa2`)
                         const kissUser2 = args[1].slice(1)
-                        if (isNaN(kissUser2)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @<Pessoa1> <@Pessoa2>`)
+                        if (isNaN(kissUser2)) return enviar(`❌ \`\`\`-\`\`\` Modo De Uso: ${prefixo}kiss @Pessoa1> @Pessoa2`)
 
                         enviar(resposta.espere)
                         setTimeout(async () => {

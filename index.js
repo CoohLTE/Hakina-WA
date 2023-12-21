@@ -363,7 +363,7 @@ async function connectToWhatsApp() {
                     if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @Pessoa1> @Pessoa2`)
                     if (args[1] == '' || args[1] == undefined || !args[1]) {
 
-                        await Canvas.registerFont(resolve("./arquivos/Fontes/Super_Dream.ttf"), { family: "Super Dream" })
+                        await Canvas.registerFont("./arquivos/Fontes/Super_Dream.ttf", { family: "Super Dream" })
                         const canvas = Canvas.createCanvas(480, 195)
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'

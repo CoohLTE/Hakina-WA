@@ -363,7 +363,7 @@ async function connectToWhatsApp() {
                     if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @Pessoa1> @Pessoa2`)
                     if (args[1] == '' || args[1] == undefined || !args[1]) {
 
-                        Canvas.registerFont(resolve("./arquivos/Fontes/Super_Dream.ttf"), { family: "Super Dream" })
+                        await Canvas.registerFont(resolve("./arquivos/Fontes/Super_Dream.ttf"), { family: "Super Dream" })
                         const canvas = Canvas.createCanvas(480, 195)
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
@@ -402,7 +402,7 @@ async function connectToWhatsApp() {
                         ctx.textAlign = 'center';
                         ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
 
-                        fs.writeFileSync('./Logs/ship.png', await canvas.toBuffer())
+                        fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
 
                         let messageA = ''
                         if (shipPercentage >= 40 && shipPercentage <= 50) {
@@ -537,6 +537,7 @@ async function connectToWhatsApp() {
 
                     break
 
+                case "carteira":
                 case "atm":
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)

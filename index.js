@@ -277,7 +277,7 @@ async function connectToWhatsApp() {
                         const repostaImagine = await Imagine.drawImage({ model: 'v2', prompt: `${q}` })
                         await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) })
 
-                        cooh.sendMessage(from, { image: { url: `${repostaImagine.url}` }, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, { quoted: verificado })
+                        cooh.sendMessage(from, { image: { url: `${repostaImagine.url}` }, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, { quoted: info })
                         //GetLogsCMD(cooh, info, `${prefixo}imagine`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     })
                     break
@@ -321,6 +321,18 @@ async function connectToWhatsApp() {
                     })
                     break
 
+                case "imagesrc":
+                    //if(!isGroup && from.split("@g.us")[0] != "120363207866579217@") return enviar(`\`\`\`=->\`\`\` Esse Comando So Pode Ser Executado No Grupo:\nhttps://chat.whatsapp.com/ICSI5z2gKcB9aEx4fZkdpQ`)
+                    if(!q || q == "") return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}imagesrc Imagem Que Deseja Pesquisar`)
+
+                    await fetch(`https://serpapi.com/search.json?engine=yandex_images&text=${q}`).then((api) => api.json()).then((json) => {
+
+                        const resultadoImagem = json.images_results[Math.floor(Math.random() * json.images_results.length)]
+
+                        cooh.sendMessage(from, { image: { url: `${resultadoImagem.original}`}, caption: `\`\`\`=->\`\`\` 🌐 Status: ${json.search_metadata.status == "Sucess" ? "Sucesso!" : "Falhou!"}\n\`\`\`=->\`\`\` 🖊️ Titulo Da Imagem: ${resultadoImagem.title}\n\`\`\`=->\`\`\` 🃏 Dimensões Da Imagem: ${resultadoImagem.size.width}x${resultadoImagem.size.height} ` }, { quoted: info })
+                    })
+                break
+
                 case "roubar":
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)
@@ -363,7 +375,7 @@ async function connectToWhatsApp() {
                     if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @Pessoa1> @Pessoa2`)
                     if (args[1] == '' || args[1] == undefined || !args[1]) {
 
-                        await Canvas.registerFont("./arquivos/Fontes/Super_Dream.ttf", { family: "Super Dream" })
+                        Canvas.registerFont(resolve("./arquivos/Fontes/Super_Dream.ttf"), { family: "Super Dream" })
                         const canvas = Canvas.createCanvas(480, 195)
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
@@ -402,7 +414,7 @@ async function connectToWhatsApp() {
                         ctx.textAlign = 'center';
                         ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
 
-                        fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
+                        fs.writeFileSync('./Logs/ship.png',  canvas.toBuffer())
 
                         let messageA = ''
                         if (shipPercentage >= 40 && shipPercentage <= 50) {
@@ -432,7 +444,9 @@ async function connectToWhatsApp() {
                         }, 200)
 
                     } else {
+
                         Canvas.registerFont(resolve("./arquivos/Fontes/Super_Dream.ttf"), { family: "Super Dream" })
+
                         const canvas = Canvas.createCanvas(480, 195)
                         const ctx = canvas.getContext("2d")
                         let ImageLoad = 'https://i.imgur.com/A0Z7G6d.jpg'
@@ -618,17 +632,11 @@ async function connectToWhatsApp() {
                 */
                 default:
 
-
-
                     const messType = Object.keys(info.message)[0]
 
                     //console.log(messType)
 
-                    if (body.trim().split(/ +/).shift().toLocaleLowerCase().includes("@5527992462839")) {
-
-                        GetLogsCMD(cooh, info, `Marcou A Hakina`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
-                        return enviar(`Olá! Para Saber Mais Sobre Mim Digite O Meu Prefixo: ${prefixo}menu`)
-                    }
+                    if (body.trim().split(/ +/).shift().toLocaleLowerCase().includes("@5527992462839")) return enviar(`Olá! Para Saber Mais Sobre Mim Digite O Meu Prefixo: ${prefixo}menu`)
             }
         } catch (e) {
             e = String(e)

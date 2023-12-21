@@ -327,7 +327,7 @@ async function connectToWhatsApp() {
 
                     await fetch(`https://serpapi.com/search.json?engine=yandex_images&text=${q}`).then((api) => api.json()).then((json) => {
 
-                        const resultadoImagem = json.images_results[Math.floor(Math.random() * json.images_results.length)]
+                        const resultadoImagem = json.images_results[Math.floor(Math.random() * (json.images_results).length)]
 
                         cooh.sendMessage(from, { image: { url: `${resultadoImagem.original}`}, caption: `\`\`\`=->\`\`\` 🌐 Status: ${json.search_metadata.status == "Sucess" ? "Sucesso!" : "Falhou!"}\n\`\`\`=->\`\`\` 🖊️ Titulo Da Imagem: ${resultadoImagem.title}\n\`\`\`=->\`\`\` 🃏 Dimensões Da Imagem: ${resultadoImagem.size.width}x${resultadoImagem.size.height} ` }, { quoted: info })
                     })

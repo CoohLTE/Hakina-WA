@@ -9,13 +9,13 @@ select i in "${cal[@]}" ; do
         echo "Enviando Para O Git..."
         git add .
         git commit -am "v0.0.1"
-        git push https://coohcooh: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@github.com/CoohCooh/LorittaMD.git main
+        git push https://coohcooh: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@github.com/CoohLTE/Hakina-WA.git main
         echo "Git Enviado"
         break
         ;;
      "Receber")
         echo "Atualizando Diretorio..."
-        git pull https://coohcooh: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@github.com/CoohCooh/LorittaMD.git main
+        git pull https://coohcooh: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@github.com/CoohLTE/Hakina-WA.git main
         echo "Diretorio Atualizado"
         break
         ;;

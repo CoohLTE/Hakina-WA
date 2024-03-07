@@ -36,6 +36,8 @@ const ascii = require('ascii-table')
 const UserSchema = require('./arquivos/SchemaDB/User')
 const RoubarSchema = require("./arquivos/SchemaDB/Roubar")
 
+const Cargos = require('./arquivos/Json/Cargos.json')
+
 const hercai = require('hercai')
 const { resolve } = require("path")
 
@@ -274,7 +276,7 @@ async function connectToWhatsApp() {
                             return cooh.sendMessage(from, { text: `Olá ${pushname} \`\`\`(\`\`\` +${sender.split("@")[0]} \`\`\`)\`\`\`, Está API Está Em Desenvolvimento, Para Uma Melhor Utilização Aguarde ${countdownImagine} Para Utilizar Novamente!` }, { quoted: info })
                         }
 
-                        const repostaImagine = await Imagine.drawImage({ model: 'v2', prompt: `${q}` })
+                        const repostaImagine = await Imagine.drawImage({ model: 'v3', prompt: `${q}` })
                         await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, TimeImagine: (Date.now() + 10000) })
 
                         cooh.sendMessage(from, { image: { url: `${repostaImagine.url}` }, caption: `_A imagem pode conter conteúdo explícito, não nos responsabilizamos, as imagens têm melhor qualidade quando o prompt está em inglês._` }, { quoted: info })
@@ -291,6 +293,7 @@ async function connectToWhatsApp() {
                         name: `${pushname}`,
                         telefone: `${sender.split("@")[0]}`,
                         vip: false,
+                        cargo: 0,
                         money: 0,
                         cash: 0
                     })
@@ -369,6 +372,43 @@ async function connectToWhatsApp() {
                     })
 
                     break
+                case "roles":
+                case "cargos":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isRegistro) return enviar(resposta.registro)
+
+                    CargosText = ``
+
+                    for(let i = 0; i < Cargos.length; i++){
+                        CargosText += `*${i+1}.* ${Cargos[i]}\n`
+                    }
+
+                    cooh.sendMessage(from, { text: `\`\`\`Cargos Disponiveis\`\`\`\n\n${CargosText}` }, { quoted: info })
+
+                break
+
+                case "setrole":
+                case "setcargo":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isGroupAdmins) return enviar(resposta.adm)
+                    if(args[0] == "" || !args[0]) return enviar(`~=->~ Coloque O Usuario Que Queira Setar!`)
+                    let pSetCargo = args[0].slice(1)
+
+                    if(args[1] == "" || !args[1]) return enviar(`~=->~ Coloque O Cargo Que Queira Setar!`)
+                    const rSetCargo = args[1].toLowerCase()
+                    let nSetCargo = 0
+                    if(!Cargos.includes(rSetCargo)) return enviar(`~=->~ Cargo Invalido!`)
+                    for(let i = 0; i < Cargos.length; i++){
+                        if(rSetCargo == Cargos[i]) nSetCargo = i
+                    }
+                    
+                    if(isNaN(pSetCargo)) return cooh.sendMessage(from, { text: `~=->~ Marque A Pessoa Que Queira Setar (Uso: ${prefixo}setcargo @5527992462839 Everyone)`, mentions: ["5527992462839@s.whatsapp.net"] }, { quoted: info }) 
+                    const setCargoDB = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
+                    setCargoDB.map(async(doc1) => {
+                        await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, cargo: nSetCargo })
+                        cooh.sendMessage(from, {text: `✅ \`\`\`Cargo Setado Com Sucesso!\`\`\`\n\n~=->~ Setador: @${sender.split("@")[0]}\n~=->~ Pessoa Setada: @${pSetCargo}\n~=->~ Cargo Setado: ${Cargos[nSetCargo]}`, mentions: [sender, `${pSetCargo}@s.whatsapp.net`] }, {quoted: info})
+                    })
+                break
 
                 case "ship":
                     if (!isGroup) return enviar(resposta.grupo)
@@ -559,14 +599,7 @@ async function connectToWhatsApp() {
                     if (!isRegistro) return enviar(resposta.registro)
                     const atmProcess = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
                     atmProcess.map(async (doc1) => {
-
-                        /*const money1 = doc1.money, cash1 = doc1.cash, vip1 = ""
-
-                        if(!money1 || money1 == undefined) money1 = 0
-                        if(!cash1 || cash1 == undefined) cash1 = 0
-                        if(!doc1.vip || doc1.vip == undefined) vip1 = "Sem VIP"*/
-
-                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` 💸 *Carteira:* ${doc1.money >= 0 ? doc1.money : 0}\n\`\`\`=->\`\`\` 🏦 *Cash:* ${doc1.cash >= 0 ? doc1.cash : 0}\n\`\`\`=->\`\`\` 🌟 *VIP:* ${doc1.vip ? "Com VIP" : "Sem VIP"}` }, { quoted: info })
+                        cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` 💸 *Carteira:* ${doc1.money >= 0 ? doc1.money : 0}\n\`\`\`=->\`\`\` 🏦 *Cash:* ${doc1.cash >= 0 ? doc1.cash : 0}\n\`\`\`=->\`\`\` 🌟 *VIP:* ${doc1.vip ? "Com VIP" : "Sem VIP"}\n\`\`\`=->\`\`\` ⭕ *Cargo:* ${Cargos[doc1.cargo] == undefined ? Cargos[0] : Cargos[doc1.cargo]}` }, { quoted: info })
                     })
                     break
 

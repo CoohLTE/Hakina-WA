@@ -6,6 +6,7 @@ const CreateUser = new Schema({
     vip: Boolean,
     money: Number,
     cash: Number,
+    cargo: Number,
     TimeImagine: Number,
     TimeWork: Number
 }); 

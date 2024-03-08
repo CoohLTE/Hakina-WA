@@ -7,10 +7,16 @@ const menu1 = (prefixo, sender, pushname) => {
 
 ╭━━〢⎙ Membros ━━╮
 ┣ ⩺ ${prefixo}rg
-┣ ⩺ ${prefixo}kiss
-┣ ⩺ ${prefixo}imagine
 ┣ ⩺ ${prefixo}doar
+┣ ⩺ ${prefixo}cargos
 ╰━━〢⎙ Membros ️━━╯
+
+╭━━〢⎙ Entretenimento ━━╮
+┣ ⩺ ${prefixo}kiss
+┣ ⩺ ${prefixo}ship
+┣ ⩺ ${prefixo}roubar
+┣ ⩺ ${prefixo}imagine (Em Beta Fechada)
+╰━━〢⎙ Entretenimento ️━━╯
 
 ╭━━〢⎙ Economia ━━╮
 ┣ ⩺ ${prefixo}work

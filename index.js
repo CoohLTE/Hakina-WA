@@ -324,21 +324,6 @@ async function connectToWhatsApp() {
 
                     })
                     break
-
-                case "imagesrc":
-                    //if(!isGroup && from.split("@g.us")[0] != "120363207866579217@") return enviar(`\`\`\`=->\`\`\` Esse Comando So Pode Ser Executado No Grupo:\nhttps://chat.whatsapp.com/ICSI5z2gKcB9aEx4fZkdpQ`)
-                    if(!q || q == "") return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}imagesrc Imagem Que Deseja Pesquisar`)
-
-                    await fetch(`https://serpapi.com/search.json?engine=yandex_images&text=${q}`).then((api) => api.json()).then((json) => {
-
-                        console.log(json)
-
-                        const resultadoImagem = json.images_results[0]
-
-                        cooh.sendMessage(from, { image: { url: `${resultadoImagem.original}`}, caption: `\`\`\`=->\`\`\` 🌐 Status: ${json.search_metadata.status == "Sucess" ? "Sucesso!" : "Falhou!"}\n\`\`\`=->\`\`\` 🖊️ Titulo Da Imagem: ${resultadoImagem.title}\n\`\`\`=->\`\`\` 🃏 Dimensões Da Imagem: ${resultadoImagem.size.width}x${resultadoImagem.size.height} ` }, { quoted: info })
-                    })
-                break
-
                 case "roubar":
                     if (!isGroup) return enviar(resposta.grupo)
                     if (!isRegistro) return enviar(resposta.registro)
@@ -358,8 +343,8 @@ async function connectToWhatsApp() {
                         if (doc1.Time !== null && timeoutRoubo - (Date.now() - doc1.Time) > 0) {
 
                             const countdownRoubo = msFunction(timeoutWork - (Date.now() - doc1.Time))
-                            await cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` Você So Pode Roubar Daqui ${countdownRoubo.minutes} Minutos E ${countdownRoubo.seconds} Segundos`})
-                            
+                            await cooh.sendMessage(from, { text: `\`\`\`=->\`\`\` Você So Pode Roubar Daqui ${countdownRoubo.minutes} Minutos E ${countdownRoubo.seconds} Segundos` })
+
                         } else {
 
                             const ValorRoubar = Math.floor(Math.random() * 200) + 1
@@ -375,41 +360,41 @@ async function connectToWhatsApp() {
                     break
                 case "roles":
                 case "cargos":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    if(!isRegistro) return enviar(resposta.registro)
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isRegistro) return enviar(resposta.registro)
 
                     CargosText = ``
 
-                    for(let i = 0; i < Cargos.length; i++){
-                        CargosText += `*${i+1}.* ${Cargos[i]}\n`
+                    for (let i = 0; i < Cargos.length; i++) {
+                        CargosText += `*${i + 1}.* ${Cargos[i]}\n`
                     }
 
                     cooh.sendMessage(from, { text: `\`\`\`Cargos Disponiveis\`\`\`\n\n${CargosText}` }, { quoted: info })
 
-                break
+                    break
 
                 case "setrole":
                 case "setcargo":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    if(!isGroupAdmins) return enviar(resposta.adm)
-                    if(args[0] == "" || !args[0]) return enviar(`~=->~ Coloque O Usuario Que Queira Setar!`)
+                    if (!isGroup) return enviar(resposta.grupo)
+                    if (!isOwner) return enviar(resposta.adm)
+                    if (args[0] == "" || !args[0]) return enviar(`~=->~ Coloque O Usuario Que Queira Setar!`)
                     let pSetCargo = args[0].slice(1)
 
-                    if(args[1] == "" || !args[1]) return enviar(`~=->~ Coloque O Cargo Que Queira Setar!`)
+                    if (args[1] == "" || !args[1]) return enviar(`~=->~ Coloque O Cargo Que Queira Setar!`)
                     const rSetCargo = args[1].toLowerCase()
                     let nSetCargo = 0
-                    if(!Cargos.includes(rSetCargo)) return enviar(`~=->~ Cargo Invalido!`)
-                    for(let i = 0; i < Cargos.length; i++){
-                        if(rSetCargo == Cargos[i]) nSetCargo = i
+                    if (!Cargos.includes(rSetCargo)) return enviar(`~=->~ Cargo Invalido!`)
+                    for (let i = 0; i < Cargos.length; i++) {
+                        if (rSetCargo == Cargos[i]) nSetCargo = i
                     }
-                    
-                    if(isNaN(pSetCargo)) return cooh.sendMessage(from, { text: `~=->~ Marque A Pessoa Que Queira Setar (Uso: ${prefixo}setcargo @5527992462839 Everyone)`, mentions: ["5527992462839@s.whatsapp.net"] }, { quoted: info }) 
+
+                    if (isNaN(pSetCargo)) return cooh.sendMessage(from, { text: `~=->~ Marque A Pessoa Que Queira Setar (Uso: ${prefixo}setcargo @5527992462839 Everyone)`, mentions: ["5527992462839@s.whatsapp.net"] }, { quoted: info })
                     const setCargoDB = await UserSchema.find({ telefone: `${sender.split("@")[0]}` })
-                    setCargoDB.map(async(doc1) => {
+                    setCargoDB.map(async (doc1) => {
                         await UserSchema.findOneAndUpdate({ telefone: `${sender.split("@")[0]}` }, { telefone: `${sender.split("@")[0]}`, cargo: nSetCargo })
-                        cooh.sendMessage(from, {text: `✅ \`\`\`Cargo Setado Com Sucesso!\`\`\`\n\n~=->~ Setador: @${sender.split("@")[0]}\n~=->~ Pessoa Setada: @${pSetCargo}\n~=->~ Cargo Setado: ${Cargos[nSetCargo]}`, mentions: [sender, `${pSetCargo}@s.whatsapp.net`] }, {quoted: info})
+                        cooh.sendMessage(from, { text: `✅ \`\`\`Cargo Setado Com Sucesso!\`\`\`\n\n~=->~ Setador: @${sender.split("@")[0]}\n~=->~ Pessoa Setada: @${pSetCargo}\n~=->~ Cargo Setado: ${Cargos[nSetCargo]}`, mentions: [sender, `${pSetCargo}@s.whatsapp.net`] }, { quoted: info })
                     })
-                break
+                    break
 
                 case "ship":
                     if (!isGroup) return enviar(resposta.grupo)
@@ -457,7 +442,7 @@ async function connectToWhatsApp() {
                         ctx.textAlign = 'center';
                         ctx.fillText(`${shipPercentage}%`, canvas.width / 2, canvas.height / 1.6);
 
-                        fs.writeFileSync('./Logs/ship.png',  canvas.toBuffer())
+                        fs.writeFileSync('./Logs/ship.png', canvas.toBuffer())
 
                         let messageA = ''
                         if (shipPercentage >= 40 && shipPercentage <= 50) {
@@ -568,7 +553,7 @@ async function connectToWhatsApp() {
                     if (!isRegistro) return enviar(resposta.registro)
                     if (!args[0] || args[0] == '') return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}doar Valor Para Doar Pro Bot`)
                     if (isNaN(args[0])) return enviar(`\`\`\`=->\`\`\` Não Aceitamos O Valor Em Texto!`)
-                    if(args[0].length >= 100) return enviar(`\`\`\`=->\`\`\` Não Aceitamos Valor Acima De R$:999`)
+                    if (args[0].length >= 100) return enviar(`\`\`\`=->\`\`\` Não Aceitamos Valor Acima De R$:999`)
                     const pixGerador = PIX.static().setReceiverName(`${pushname}`)
                         .setReceiverCity('Brasil')
                         .setKey("a04team001@gmail.com")

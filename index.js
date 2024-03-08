@@ -265,6 +265,7 @@ async function connectToWhatsApp() {
                     break
                 case "imagine":
                     if (!isGroup) return enviar(resposta.grupo)
+                    if (!isOwner) return enviar(resposta.dono)
                     if (!isRegistro) return enviar(resposta.registro)
                     if (q == '' || q == undefined || !q) return enviar(`\`\`\`[\`\`\` ⚠️ \`\`\]\`\`\ *Modo De Uso: ${prefixo}imagine _Texto A Ser Imaginado Como Uma Imagem>_*`)
                     const Imagine = new hercai.Hercai()

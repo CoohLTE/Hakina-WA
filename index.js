@@ -260,7 +260,7 @@ async function connectToWhatsApp() {
             switch (comando) {
                 case "menu":
                     if (!isGroup) return enviar(resposta.grupo)
-                    enviar(`${menu1(prefixo, sender.split("@")[0], pushname)}`)
+                    enviar(`${menu1(prefixo, sender.split("@")[0], pushname == "LorenzoTI" ? "Cooh Cooh" : pushname )}`)
                     //GetLogsCMD(cooh, info, `${prefixo}menu`, pushname, sender.split("@")[0], latensi.toFixed(4), status_msg.check)
                     break
                 case "imagine":
@@ -398,6 +398,7 @@ async function connectToWhatsApp() {
 
                 case "ship":
                     if (!isGroup) return enviar(resposta.grupo)
+                    if(from == "120363273399190991@g.us") return enviar("Comando Desativado Neste Grupo!")
                     if (!isRegistro) return enviar(resposta.registro)
 
                     if (args[0] == '' || args[0] == undefined || !args[0]) return enviar(`\`\`\`=->\`\`\` Modo De Uso: ${prefixo}ship @Pessoa1> @Pessoa2`)
@@ -592,6 +593,7 @@ async function connectToWhatsApp() {
                 case "beijar":
                 case "kiss":
                     if (!isGroup) return enviar(resposta.grupo)
+                    if(from == "120363273399190991@g.us") return enviar("Comando Desativado Neste Grupo!")
                     if (!isRegistro) return enviar(resposta.registro)
                     var kissList1 = [
                         './arquivos/Videos/Kiss/II1bakc.mp4',

@@ -375,9 +375,10 @@ async function connectToWhatsApp() {
                 case "status":
                     if(!isGroup) return enviar(resposta.grupo)
                     await fetch(`https://api.mcsrvstat.us/3/cdworld.cloud`).then((api) => api.json()).then((json) => {
+                        const infosStatusServer = json.version == "Manutenção" ? `~=->~ *Status:* ${json.version}` : `~=->~ *Versão:* ${json.version}`
                         if(json.online) return cooh.sendMessage(from, { text: `*Informações Do Servidor*\n\n\
 ~=->~ *IP:* ${json.hostname}\n\
-~=->~ *Versão:* ${json.version}\n\
+${infosStatusServer}\n\
 ~=->~ *Players Online:* ${json.players.online}/${json.players.max}` }, { quoted: info })
                         else return cooh.sendMessage(from, { text: `*Servidor Offline!* ❌` }, { quoted: info })
                     })

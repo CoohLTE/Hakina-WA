@@ -375,7 +375,7 @@ async function connectToWhatsApp() {
                 case "status":
                     if(!isGroup) return enviar(resposta.grupo)
                     await fetch(`https://api.mcsrvstat.us/3/cdworld.cloud`).then((api) => api.json()).then((json) => {
-                        if(json.online) return cooh.sendMessage(from, { image: `${json.icon}`, caption: `*Informações Do Servidor*\n\n\
+                        if(json.online) return cooh.sendMessage(from, { text: `*Informações Do Servidor*\n\n\
 ~=->~ *IP:* ${json.hostname}\n\
 ~=->~ *Versão:* ${json.version}\n\
 ~=->~ *Players Online:* ${json.players.online}/${json.players.max}` }, { quoted: info })

@@ -96,7 +96,7 @@ async function connectToWhatsApp() {
             console.log(table.toString())
             console.log('\n\n')
 
-            console.log(color(`➱ Conectado com sucesso!\n• Status: online\n• Horário ligado: ${hora}\n• Bem-vindo ao ${nomebot}\n➱ Próximos logs...\n`, 'green'))
+            console.log(color(`➱ Conectado com sucesso!\n• Status: online\n• Horário ligado: ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")}\n• Bem-vindo ao ${nomebot}\n➱ Próximos logs...\n`, 'green'))
         }
     })
     cooh.ev.on('messages.upsert', async (m) => {
@@ -231,7 +231,7 @@ async function connectToWhatsApp() {
                         color(`\n➱ Número: ${sender.split("@")[0]}`, 'green'),
                         color(`\n➱ Grupo: ${groupName} (${from.split("@g.us")[0]})`, 'green'),
                         color(`\n➱ Nome: ${nome}`, 'green'),
-                        color(`\n➱ Hora: ${hora}\n`, 'green'))
+                        color(`\n➱ Hora: ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")}\n`, 'green'))
                 } else if (!isBot) {
                     console.log(
                         color(`\n ⟨ Mensagem em grupo ⟩`, 'yellow'),
@@ -239,7 +239,7 @@ async function connectToWhatsApp() {
                         color(`\n➱ Número: ${sender.split("@")[0]}`, 'green'),
                         color(`\n➱ Grupo: ${groupName} (${from.split("@g.us")[0]})`, 'green'),
                         color(`\n➱ Nome: ${nome}`, 'green'),
-                        color(`\n➱ Hora: ${hora}\n`, 'green'))
+                        color(`\n➱ Hora: ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")}\n`, 'green'))
                 }
             } else {
                 if (isCmd && !isBot) {
@@ -248,14 +248,14 @@ async function connectToWhatsApp() {
                         color(`\n➱ Comando: ${comando}`, 'green'),
                         color(`\n➱ Número: ${sender.split("@")[0]}`, 'green'),
                         color(`\n➱ Nome: ${nome}`, 'green'),
-                        color(`\n➱ Hora: ${hora}\n`, 'green'))
+                        color(`\n➱ Hora: ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")}\n`, 'green'))
                 } else if (!isBot) {
                     console.log(
                         color(`\n ⟨ Mensagem no privado ⟩`, 'yellow'),
                         color(`\n➱ Comando: ${color('Não', 'red')}`, 'green'),
                         color(`\n➱ Número: ${sender.split("@")[0]}`, 'green'),
                         color(`\n➱ Nome: ${nome}`, 'green'),
-                        color(`\n➱ Hora: ${hora}\n`, 'green'))
+                        color(`\n➱ Hora: ${moment().tz("America/Sao_Paulo", keepTime = true).format("HH:mm:ss")}\n`, 'green'))
                 }
             }
             switch (comando) {

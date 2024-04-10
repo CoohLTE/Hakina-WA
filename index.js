@@ -399,8 +399,8 @@ async function connectToWhatsApp() {
 
                 case "download":
                     if(!isGroup) return enviar(resposta.grupo)
-                    if(!isUrl(q)) return enviar(`Link Invalido! Marque Ou Coloque O Link Que Deseja Enviar!`)
                     const textInformationURLDownload = info.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text
+                    if(!isUrl(q) || !isUrl(textInformationURLDownload)) return enviar(`Link Invalido! Marque Ou Coloque O Link Que Deseja Enviar!`)
                     if(info.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes("mediafire.com/file/")) {
                         await fetch(`https://tohka.tech/api/dl/mediafire?link=${textInformationURLDownload}&apikey=KzqKxVmU65`).then((api) => api.json()).then((json) => {
                             if(json.status != "operando") return enviar("Link invalido ou a API está offline! Tente novamente...")

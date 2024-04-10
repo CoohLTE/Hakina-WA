@@ -16,6 +16,7 @@ const cfonts = require("cfonts")
 const moment = require("moment-timezone")
 const ffmpeg = require("fluent-ffmpeg")
 const { Boom } = require("@hapi/boom")
+const mimeLookup = require("mime-types")
 
 const { PIX } = require('gpix/dist')
 const Canvas = require('canvas')
@@ -372,18 +373,6 @@ async function connectToWhatsApp() {
                     cooh.sendMessage(from, { text: `\`\`\`Cargos Disponiveis\`\`\`\n\n${CargosText}` }, { quoted: info })
 
                     break
-                case "status":
-                    if(!isGroup) return enviar(resposta.grupo)
-                    await fetch(`https://api.mcsrvstat.us/3/cdworld.cloud`).then((api) => api.json()).then((json) => {
-                        const infosStatusServer = json.version == "Manutenção" ? `~=->~ *Status:* ${json.version}` : `~=->~ *Versão:* ${json.version}`
-                        if(json.online) return cooh.sendMessage(from, { text: `*Informações Do Servidor*\n\n\
-~=->~ *IP:* ${json.hostname}\n\
-${infosStatusServer}\n\
-~=->~ *Players Online:* ${json.players.online}/${json.players.max}` }, { quoted: info })
-                        else return cooh.sendMessage(from, { text: `*Servidor Offline!* ❌` }, { quoted: info })
-                    })
-                    
-                break
 
                 case "setrole":
                 case "setcargo":
@@ -407,6 +396,29 @@ ${infosStatusServer}\n\
                         cooh.sendMessage(from, { text: `✅ \`\`\`Cargo Setado Com Sucesso!\`\`\`\n\n~=->~ Setador: @${sender.split("@")[0]}\n~=->~ Pessoa Setada: @${pSetCargo}\n~=->~ Cargo Setado: ${Cargos[nSetCargo]}`, mentions: [sender, `${pSetCargo}@s.whatsapp.net`] }, { quoted: info })
                     })
                     break
+
+                case "download":
+                    if(!isGroup) return enviar(resposta.grupo)
+                    if(!isUrl(q)) return enviar(`Link Invalido! Marque Ou Coloque O Link Que Deseja Enviar!`)
+                    const textInformationURLDownload = info.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text
+                    if(info.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes("mediafire.com/file/")) {
+                        await fetch(`https://tohka.tech/api/dl/mediafire?link=${textInformationURLDownload}&apikey=KzqKxVmU65`).then((api) => api.json()).then((json) => {
+                            if(json.status != "operando") return enviar("Link invalido ou a API está offline! Tente novamente...")
+                            const tamanhoDownload = json.resultado.tamanho
+                            if(tamanhoDownload.includes("GB")) return enviar("Arquivo Muito Pesado! So Aceitamos Arquivos Menor Que 1GB")
+
+                            enviar("Aguarde...")
+                            cooh.sendMessage(from, { text: `Arquivo Em Download...\n\n~=->~ *Nome:* ${json.resultado.nome}\n~=->~ *Extensão:* ${json.resultado.tipo}\n~=->~ *Mimetype:* ${mimeLookup.lookup(`${json.resultado.tipo}`)}\n~=->~ *Tamanho:* ${json.resultado.tamanho}`})
+                            cooh.sendMessage(from, { document: { url: `${json.resultado.link}`}, fileName: `${json.resultado.nome}`, mimetype: `${mimeLookup.lookup(`${json.resultado.tipo}`)}` }, { quoted: info})
+
+                        })
+
+                    } else {
+
+                    }
+
+
+                break
 
                 case "ship":
                     if (!isGroup) return enviar(resposta.grupo)

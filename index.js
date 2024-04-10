@@ -399,6 +399,7 @@ async function connectToWhatsApp() {
 
                 case "download":
                     if(!isGroup) return enviar(resposta.grupo)
+                    console.log(info.message.extendedTextMessage.contextInfo.quotedMessage)
                     const textInformationURLDownload = info.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text
                     if(!isUrl(q) || !isUrl(textInformationURLDownload)) return enviar(`Link Invalido! Marque Ou Coloque O Link Que Deseja Enviar!`)
                     if(info.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.text.includes("mediafire.com/file/")) {

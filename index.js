@@ -405,14 +405,16 @@ async function connectToWhatsApp() {
                     if(!(isUrl(q) || isUrl(textInformationURLDownload))) return enviar(`Link Invalido! Marque Ou Coloque O Link Que Deseja Enviar!`)
                     
                     if(textInformationURLDownload.includes("mediafire.com/file/")) {
+                        enviar("Aguarde...")
                         await fetch(`https://tohka.tech/api/dl/mediafire?link=${textInformationURLDownload}&apikey=KzqKxVmU65`).then((api) => api.json()).then((json) => {
                             if(json.status != "operando") return enviar("Link invalido ou a API está offline! Tente novamente...")
                             const tamanhoDownload = json.resultado.tamanho
                             if(tamanhoDownload.includes("GB")) return enviar("Arquivo Muito Pesado! So Aceitamos Arquivos Menor Que 1GB")
-
-                            enviar("Aguarde...")
-                            cooh.sendMessage(from, { text: `Arquivo Em Download...\n\n~=->~ *Nome:* ${json.resultado.nome}\n~=->~ *Extensão:* ${json.resultado.tipo}\n~=->~ *Mimetype:* ${mimeLookup.lookup(`${json.resultado.tipo}`)}\n~=->~ *Tamanho:* ${json.resultado.tamanho}`})
-                            cooh.sendMessage(from, { document: { url: `${json.resultado.link}`}, fileName: `${json.resultado.nome}`, mimetype: `${mimeLookup.lookup(`${json.resultado.tipo}`)}` }, { quoted: info})
+                            cooh.sendMessage(from, { text: `Arquivo Em Download...\n\n~=->~ *Nome:* ${json.resultado.nome}\n~=->~ *Extensão:* ${json.resultado.tipo}\n~=->~ *Mimetype:* ${mimeLookup.lookup(`${json.resultado.tipo}`)}\n~=->~ *Tamanho:* ${json.resultado.tamanho}` }, {quoted: info})
+                            
+                            setTimeout(() => {
+                                cooh.sendMessage(from, { document: { url: `${json.resultado.link}`}, fileName: `${json.resultado.nome}`, mimetype: `${mimeLookup.lookup(`${json.resultado.tipo}`)}` }, { quoted: info})
+                            }, 500)
 
                         })
 

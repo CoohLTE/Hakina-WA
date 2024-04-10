@@ -418,6 +418,21 @@ async function connectToWhatsApp() {
 
                         })
 
+                    } else if(q.includes("mediafire.com/file/")) {
+
+                        enviar("Aguarde...")
+                        await fetch(`https://tohka.tech/api/dl/mediafire?link=${q}&apikey=KzqKxVmU65`).then((api) => api.json()).then((json) => {
+                            if(json.status != "operando") return enviar("Link invalido ou a API está offline! Tente novamente...")
+                            const tamanhoDownload = json.resultado.tamanho
+                            if(tamanhoDownload.includes("GB")) return enviar("Arquivo Muito Pesado! So Aceitamos Arquivos Menor Que 1GB")
+                            cooh.sendMessage(from, { text: `Arquivo Em Download...\n\n~=->~ *Nome:* ${json.resultado.nome}\n~=->~ *Extensão:* ${json.resultado.tipo}\n~=->~ *Mimetype:* ${mimeLookup.lookup(`${json.resultado.tipo}`)}\n~=->~ *Tamanho:* ${json.resultado.tamanho}` }, {quoted: info})
+                            
+                            setTimeout(() => {
+                                cooh.sendMessage(from, { document: { url: `${json.resultado.link}`}, fileName: `${json.resultado.nome}`, mimetype: `${mimeLookup.lookup(`${json.resultado.tipo}`)}` }, { quoted: info})
+                            }, 500)
+
+                        })
+
                     } else {
 
                     }

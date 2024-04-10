@@ -402,10 +402,7 @@ async function connectToWhatsApp() {
                     //console.log(info.message.extendedTextMessage.contextInfo.quotedMessage)
                     const textInformationURLDownload = info.message.extendedTextMessage.contextInfo.quotedMessage.conversation
                     
-                    console.log(textInformationURLDownload)
-                    console.log(isUrl(textInformationURLDownload))
-                    
-                    if(isUrl(q) || isUrl(textInformationURLDownload)) return enviar(`Link Invalido! Marque Ou Coloque O Link Que Deseja Enviar!`)
+                    if(!(isUrl(q) || isUrl(textInformationURLDownload))) return enviar(`Link Invalido! Marque Ou Coloque O Link Que Deseja Enviar!`)
                     
                     if(info.message.extendedTextMessage.contextInfo.quotedMessage.extendedTextMessage.conversation.includes("mediafire.com/file/")) {
                         await fetch(`https://tohka.tech/api/dl/mediafire?link=${textInformationURLDownload}&apikey=KzqKxVmU65`).then((api) => api.json()).then((json) => {

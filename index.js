@@ -439,8 +439,8 @@ async function connectToWhatsApp() {
                         await fetch(`https://tohka.tech/api/dl/igdl?link=${textInformationURLDownload}&apikey=KzqKxVmU65`).then(async(api) => api.json()).then(async(json) => {
                             if(json.status != "operando") return enviar("Link invalido ou a API está offline! Tente novamente...")
                             console.log(json)
-                            await fetch(`${json.resultado.link[0]}`).then((api1) => api1.buffer()).then((buffer) => {
-                                cooh.sendMessage(from, { video: { url: `${json.resultado.link[1]}`}, jpegThumbnail: `${buffer}` }, { quoted: info })
+                            await fetch(`${json.resultado.link.thumbnail_link}`).then((api1) => api1.buffer()).then((buffer) => {
+                                cooh.sendMessage(from, { video: { url: `${json.resultado.link.download_link}`}, jpegThumbnail: `${buffer}` }, { quoted: info })
                             })
                         })
 

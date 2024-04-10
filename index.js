@@ -436,7 +436,7 @@ async function connectToWhatsApp() {
                     } else if(textInformationURLDownload.includes("instagram.com")){
 
                         enviar("Aguarde...")
-                        await fetch(`https://tohka.tech/api/dl/igdl?link=${textInformationURLDownload}apikey=KzqKxVmU65`).then((api) => api.json()).then((json) => {
+                        await fetch(`https://tohka.tech/api/dl/igdl?link=${textInformationURLDownload}&apikey=KzqKxVmU65`).then((api) => api.json()).then((json) => {
                             if(json.status != "operando") return enviar("Link invalido ou a API está offline! Tente novamente...")
                             cooh.sendMessage(from, { video: { url: `${json.resultado.link[1]}`}, jpegThumbnail: { url: `${json.resultado.link[0]}` } }, { quoted: info })
                         })

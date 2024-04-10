@@ -438,10 +438,10 @@ async function connectToWhatsApp() {
                         enviar("Aguarde...")
                         await fetch(`https://tohka.tech/api/dl/igdl?link=${textInformationURLDownload}&apikey=KzqKxVmU65`).then(async(api) => api.json()).then(async(json) => {
                             if(json.status != "operando") return enviar("Link invalido ou a API está offline! Tente novamente...")
-                            await fetch(`${json.resultado.link[0].thumbnail_link}`).then((api1) => api1.buffer()).then((buffer) => {
-                                fs.writeFileSync(`./Logs/imageTempThumb.jpg`, buffer)
-                                cooh.sendMessage(from, { video: { url: `${json.resultado.link[0].download_link}`}, jpegThumbnail: `${fs.readFileSync('./Logs/imageTempThumb.jpg')}` }, { quoted: info })
-                            })
+                            //await fetch(`${json.resultado.link[0].thumbnail_link}`).then((api1) => api1.buffer()).then((buffer) => {
+                                //fs.writeFileSync(`./Logs/imageTempThumb.jpg`, buffer)
+                                cooh.sendMessage(from, { video: { url: `${json.resultado.link[0].download_link}`} }, { quoted: info })
+                            //})
                         })
 
                     } else if(q.includes("instagram.com")){

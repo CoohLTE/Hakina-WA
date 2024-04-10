@@ -22,6 +22,10 @@ const menu1 = (prefixo, sender, pushname) => {
 ┣ ⩺ ${prefixo}atm
 ┣ ⩺ ${prefixo}roubar
 ╰━━〢⎙ Economia ️━━╯
+
+╭━━〢⎙ Downloads ━━╮
+┣ ⩺ ${prefixo}download
+╰━━〢⎙ Downloads ️━━╯
 `
 }
 

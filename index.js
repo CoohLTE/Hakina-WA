@@ -487,7 +487,7 @@ async function connectToWhatsApp() {
 
                         let numeroTel1Fix = ""
 
-                        if(numeroTel1.length == 10) numeroTel1Fix = `${sender.split("@")[0].slice(1, 4)}9${sender.split("@")[0].slice(4)}`
+                        if(numeroTel1.length == 10) numeroTel1Fix = `${sender.split("@")[0].slice(0, 4)}9${sender.split("@")[0].slice(4)}`
                         else numeroTel1Fix = `${numeroTel1}`
 
 

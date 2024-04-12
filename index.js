@@ -485,13 +485,13 @@ async function connectToWhatsApp() {
 
                         const numeroTel1 = `${sender.split("@")[0].slice(2)}`
 
-                        const numeroTel1Fix = ""
+                        let numeroTel1Fix = ""
 
                         if(numeroTel1.length == 10) numeroTel1Fix = `${sender.split("@")[0].slice(1, 4)}9${sender.split("@")[0].slice(4)}`
-                        else numeroTel1Fix = numeroTel1
+                        else numeroTel1Fix = `${numeroTel1}`
 
 
-                        console.log(numeroTel1)
+                        console.log(numeroTel1Fix)
 
                         const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`) == "item-not-found" ? "http://storage.cdworld.cloud/r/sem-imagem-avatar.png" : await cooh.profilePictureUrl(`${args[0].slice(1)}@c.us`)
 

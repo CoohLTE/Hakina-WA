@@ -483,7 +483,7 @@ async function connectToWhatsApp() {
                         if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "http://storage.cdworld.cloud/r/sem-imagem-avatar.png"
                         */
 
-                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`) == "item-not-found" ? "http://storage.cdworld.cloud/r/sem-imagem-avatar.png" : await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`)
+                        const user1Avatar = "http://storage.cdworld.cloud/r/sem-imagem-avatar.png" //await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`) == "item-not-found" ? "http://storage.cdworld.cloud/r/sem-imagem-avatar.png" : await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`)
                         const user2Avatar = await cooh.profilePictureUrl(`${sender}`) == "item-not-found" ? "http://storage.cdworld.cloud/r/sem-imagem-avatar.png" : await cooh.profilePictureUrl(`${sender}`)
 
                         console.log(user1Avatar)

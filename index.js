@@ -483,7 +483,7 @@ async function connectToWhatsApp() {
                         if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "http://storage.cdworld.cloud/r/sem-imagem-avatar.png"
                         */
 
-                        const numeroTel1 = sender.split("@")[0].slice(2)
+                        const numeroTel1 = `${sender.split("@")[0].slice(2)}`
 
                         if(numeroTel1.length == 10) numeroTel1 = `${sender.split("@")[0].slice(1, 4)}9${sender.split("@")[0].slice(4)}`
 

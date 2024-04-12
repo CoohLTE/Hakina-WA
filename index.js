@@ -477,10 +477,14 @@ async function connectToWhatsApp() {
 
                         //console.log(sender)
 
-                        const user1Avatar = `${await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")}` //"http://storage.cdworld.cloud/r/sem-imagem-avatar.png"
+                        /* const user1Avatar = `${await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")}` //"http://storage.cdworld.cloud/r/sem-imagem-avatar.png"
                         if(!user1Avatar || user1Avatar == "item-not-found") user1Avatar = "http://storage.cdworld.cloud/r/sem-imagem-avatar.png"
                         const user2Avatar = `${await cooh.profilePictureUrl(`${sender}`, "image")}` //"http://storage.cdworld.cloud/r/sem-imagem-avatar.png"
                         if(!user2Avatar || user2Avatar == "item-not-found") user2Avatar = "http://storage.cdworld.cloud/r/sem-imagem-avatar.png"
+                        */
+
+                        const user1Avatar = await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image") == "item-not-found" ? "http://storage.cdworld.cloud/r/sem-imagem-avatar.png" : await cooh.profilePictureUrl(`${args[0].slice(1)}@s.whatsapp.net`, "image")
+                        const user2Avatar = await cooh.profilePictureUrl(`${sender}`, "image") == "item-not-found" ? "http://storage.cdworld.cloud/r/sem-imagem-avatar.png" : await cooh.profilePictureUrl(`${sender}`, "image")
 
                         const shipPercentage = Math.floor(Math.random() * 105)
 

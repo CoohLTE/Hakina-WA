@@ -7,7 +7,7 @@ class Database {
 
     init() {
         this.mongoConnection = Mongoose.connect(
-            'mongodb+srv://rootuser:Gulox00101_@cluster0.tawpplt.mongodb.net/?retryWrites=true&w=majority'
+            '<Sua Database MongoDB>'
         ).then((err) => {
             if (!err) return console.log(err)
             console.log("Database Funcionando!")
